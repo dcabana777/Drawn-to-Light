@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5347139737574951193}
   - component: {fileID: 582369452438529747}
   - component: {fileID: 5137107106678343734}
-  - component: {fileID: 1774714908330348738}
+  - component: {fileID: 2746131859615963523}
   m_Layer: 7
   m_Name: LightDetectorMain
   m_TagString: LightDetector
@@ -107,7 +107,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1774714908330348738
+--- !u!114 &2746131859615963523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,4 +119,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf40736a25a69847b5f414369a751c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightDetector
-  detectorSource: {fileID: 0}
