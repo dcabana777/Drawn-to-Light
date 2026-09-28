@@ -5,7 +5,7 @@ public class LightToggleSwitch : Interactable
 {
     [SerializeField] private int lightGroup = 1;
     [SerializeField, Min(0f)] private float interactionCooldown;
-    private float nextInteractionCooldown = 0.25f;
+    private float nextInteractionTime;
 
     private LightState[] affectedLights;
 
@@ -28,25 +28,19 @@ public class LightToggleSwitch : Interactable
         affectedLights = matchingLights.ToArray();
     }
 
-    private bool CooldownReady(float nextAllowedTime)
+    protected override bool OnInteract()
     {
-        return Time.time >= nextAllowedTime;
-    }
+        if (affectedLights.Length == 0) return false;
 
-    protected override void OnInteract()
-    {
-        if (affectedLights.Length == 0) return;
+        if (Time.time < nextInteractionTime) return false;
 
-        if (!CooldownReady(nextInteractionCooldown)) return;
-
-        if (interactionCooldown > 0f)
-        {
-            nextInteractionCooldown = Time.time + interactionCooldown;
-        }
-
+        nextInteractionTime = Time.time + interactionCooldown;
+        
         foreach (LightState light in affectedLights)
         {
             light.ToggleLight();
         }
+
+        return true;
     }
 }

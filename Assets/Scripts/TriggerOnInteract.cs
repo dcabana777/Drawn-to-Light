@@ -1,21 +1,23 @@
+using Unity.Jobs;
 using UnityEngine;
 
-[RequireComponent(typeof(Trigger))]
 public class TriggerOnInteract : Interactable
 {
-    private Trigger[] whatToTrigger;
+    [SerializeField] private Trigger[] whatToTrigger;
 
-    protected override void Awake()
+    protected override bool OnInteract()
     {
-        base.Awake();
-        whatToTrigger = GetComponents<Trigger>();
-    }
+        bool triggeredAnything = false;
 
-    protected override void OnInteract()
-    {
         foreach (Trigger trigger in whatToTrigger)
         {
-            trigger.ManualTrigger();
+            if (trigger == null)
+                continue;
+
+            if (trigger.ManualTrigger())
+                triggeredAnything = true;
         }
+
+        return triggeredAnything;
     }
 }

@@ -3,37 +3,53 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     [Header("Limited Use Settings")]
-    [SerializeField] private bool destroySelfAfterLimitReached;
+    [SerializeField] private bool limitUses;
     [SerializeField, Min(1)] private int maxUses;
     private int currentUseCount;
+    private bool isInteracting;
 
     protected virtual void Awake()
     {
         currentUseCount = 0;
     }
     
-    public void Interact()
+    public bool Interact()
     {
-        if (currentUseCount < maxUses)
+        if (isInteracting || !isActiveAndEnabled)
+            return false;
+
+        if (limitUses && currentUseCount >= maxUses)
+            return false;
+
+        isInteracting = true;
+
+        bool succeeded;
+
+        try
+        {
+            succeeded = OnInteract();
+        }
+        finally
+        {
+            isInteracting = false;
+        }
+
+        if (!succeeded) return false;
+        
+        if (limitUses)
         {
             currentUseCount++;
-            OnInteract();
-        }
-        if (currentUseCount == maxUses && destroySelfAfterLimitReached)
-        {
-            SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
-            if (renderer != null)
-                renderer.enabled = false;
 
-            Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
-            if (rb != null)
-                rb.simulated = false;
-
-            Collider2D col = gameObject.GetComponent<Collider2D>();
-            if (col != null)
-                col.enabled = false;
+            if (currentUseCount >= maxUses)
+            {
+                OnUseLimitReached();
+            }
         }
+        
+        return true;
     }
 
-    protected abstract void OnInteract();
+    protected virtual void OnUseLimitReached() { }
+    
+    protected abstract bool OnInteract();
 }

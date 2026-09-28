@@ -1,25 +1,52 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
 public abstract class Trigger : MonoBehaviour
 {
-    protected GameManager gm;
+    private GameManager gm;
+    private bool isTriggering;
     
-    protected virtual void Awake()
+    protected GameManager GM
     {
-        gm = FindAnyObjectByType<GameManager>();
-
-        if (gm == null)
+        get
         {
-            Debug.LogError("Trigger " + gameObject.name + " could not find GameManager!");
+            if (gm == null)
+            {
+                gm = FindAnyObjectByType<GameManager>();
+                
+                if (gm == null)
+                {
+                    Debug.LogError("Trigger " + gameObject.name + " could not find GameManager!");   
+                }
+            }
+
+            return gm;
         }
     }
 
-    protected abstract void OnTriggerEnter2D(Collider2D other);
-
-    public void ManualTrigger()
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        TriggerEffect();
+        if (!other.CompareTag("Player"))
+            return;
+
+        ManualTrigger();
+    }
+
+    public bool ManualTrigger()
+    {
+        if (!isActiveAndEnabled || isTriggering)
+            return false;
+
+        isTriggering = true;
+        
+        try 
+        { 
+            TriggerEffect();
+            return true;
+        }
+        finally
+        {
+            isTriggering = false;
+        }
     }
 
     protected abstract void TriggerEffect();

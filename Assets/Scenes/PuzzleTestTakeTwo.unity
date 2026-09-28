@@ -4155,7 +4155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
-  destroySelfAfterLimitReached: 0
+  limitUses: 0
   maxUses: 0
   lightGroup: 23
   interactionCooldown: 2.5
@@ -4809,7 +4809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
-  destroySelfAfterLimitReached: 1
+  limitUses: 0
   maxUses: 1
   lightGroup: 41
   interactionCooldown: 5
@@ -9454,7 +9454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
-  destroySelfAfterLimitReached: 0
+  limitUses: 0
   maxUses: 0
   lightGroup: 41
   interactionCooldown: 0
@@ -40291,7 +40291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52af74f1438171842996d9df7581e1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  initialRoom: {fileID: 963281907}
+  initialRoom: {fileID: 991012667}
   player: {fileID: 5289689783923424215}
 --- !u!4 &1126570365
 Transform:
@@ -42840,7 +42840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
-  destroySelfAfterLimitReached: 0
+  limitUses: 0
   maxUses: 0
   lightGroup: 52
   interactionCooldown: 2.5
@@ -43394,7 +43394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
-  destroySelfAfterLimitReached: 0
+  limitUses: 0
   maxUses: 0
   lightGroup: 11
   interactionCooldown: 0.25
@@ -51022,7 +51022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
-  destroySelfAfterLimitReached: 0
+  limitUses: 0
   maxUses: 0
   lightGroup: 22
   interactionCooldown: 2.5
@@ -54781,7 +54781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
-  destroySelfAfterLimitReached: 0
+  limitUses: 0
   maxUses: 0
   lightGroup: 51
   interactionCooldown: 2.5
@@ -59292,7 +59292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
-  destroySelfAfterLimitReached: 0
+  limitUses: 0
   maxUses: 1
   lightGroup: -11
   interactionCooldown: 5
@@ -73346,7 +73346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ea1b727275319459bffb1fd3e2d24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrantPlayerAbility
-  destroySelfAfterLimitReached: 0
+  limitUses: 0
   maxUses: 0
   abilityToGrant: 1
   abilityObject: {fileID: 2372059364875389064}
@@ -79825,7 +79825,7 @@ Transform:
   m_GameObject: {fileID: 5289689783923424215}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.7, y: -5.7, z: 0}
+  m_LocalPosition: {x: 72, y: -6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

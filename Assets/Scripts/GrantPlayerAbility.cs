@@ -33,10 +33,15 @@ public class GrantPlayerAbility : Interactable
         }
     }
 
-    protected override void OnInteract()
+    protected override void OnUseLimitReached()
+    {
+        gameObject.SetActive(false);
+    }
+
+    protected override bool OnInteract()
     {
         if (player == null)
-            return;
+            return false;
 
         switch (abilityToGrant)
         {
@@ -53,6 +58,8 @@ public class GrantPlayerAbility : Interactable
             abilityObject.SetActive(true);
 
         OnAbilityGranted();
+
+        return true;
     }
 
     private void GrantLantern()

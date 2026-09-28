@@ -4,14 +4,21 @@ public class MultiInteractable : Interactable
 {
     [SerializeField] private Interactable[] interactables;
 
-    protected override void OnInteract()
+    protected override bool OnInteract()
     {
+        bool interactedWithAnything = false;
+        
         foreach (Interactable interactable in interactables)
         {
             if (interactable == null)
                 continue;
 
-            interactable.Interact();
+            if (interactable.Interact())
+            {
+                interactedWithAnything = true;
+            }
         }
+
+        return interactedWithAnything;
     }
 }
