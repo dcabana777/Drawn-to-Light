@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Interactable))]
 public class InteractOnTrigger : Trigger
 {
     [SerializeField] private Interactable whatToInteract;

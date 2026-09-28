@@ -4,6 +4,7 @@ public class AutomaticLight : LightState
 {
     [Header("Automatic Movement")]
     [SerializeField] private bool moveAutomatically = true;
+    [SerializeField] private bool keepMovingWhileOff = false;
     [SerializeField] private LightRail rail;
     [SerializeField] private float movementSpeed = 3f;
 
@@ -56,7 +57,7 @@ public class AutomaticLight : LightState
 
     private void Update()
     {
-        if (!IsOn) return;
+        if (!IsOn && !keepMovingWhileOff) return;
 
         float deltaTime = Time.deltaTime;
 

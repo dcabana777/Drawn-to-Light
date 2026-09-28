@@ -1,7 +1,12 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
+    [Header("Interaction Settings")]
+    [SerializeField] private bool showInteractionPrompt = false;
+    public bool ShowInteractionPrompt => showInteractionPrompt;
+    
     [Header("Limited Use Settings")]
     [SerializeField] private bool limitUses;
     [SerializeField, Min(1)] private int maxUses;
@@ -49,7 +54,10 @@ public abstract class Interactable : MonoBehaviour
         return true;
     }
 
-    protected virtual void OnUseLimitReached() { }
+    protected virtual void OnUseLimitReached()
+    {
+        showInteractionPrompt = false;
+    }
     
     protected abstract bool OnInteract();
 }
