@@ -38,10 +38,19 @@ public class PlayerLantern : MonoBehaviour
 
     private Coroutine globalDurationCoroutine;
     
-    private void Awake()
+    private void Start()
     {
         isOn = isLanternOnDefault;
         isGlobal = isLanternGlobalDefault;
+
+        GameManager gm = FindAnyObjectByType<GameManager>();
+        GameObject player = gm.Player;
+        if (player == null)
+        {
+            Debug.LogError("Lantern could not find Player!");
+        }
+        playerData = player.GetComponent<PlayerState>();
+
 
         UpdateLighting();
 

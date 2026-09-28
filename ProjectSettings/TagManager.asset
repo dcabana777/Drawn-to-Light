@@ -19,9 +19,9 @@ TagManager:
   - LightDetector
   - Interactable
   - 
-  - 
+  - Player
   - BackgroundObject
-  - 
+  - ManifestationHazard
   - 
   - 
   - 

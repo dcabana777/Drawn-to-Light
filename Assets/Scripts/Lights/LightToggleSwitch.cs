@@ -9,8 +9,10 @@ public class LightToggleSwitch : Interactable
 
     private LightState[] affectedLights;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        
         LightState[] allLights = FindObjectsByType<LightState>();
 
         List<LightState> matchingLights = new();
@@ -31,7 +33,7 @@ public class LightToggleSwitch : Interactable
         return Time.time >= nextAllowedTime;
     }
 
-    public override void Interact()
+    protected override void OnInteract()
     {
         if (affectedLights.Length == 0) return;
 

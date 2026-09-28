@@ -1,25 +1,18 @@
 using UnityEngine;
 
-public class RespawnTrigger : MonoBehaviour
+public class RespawnTrigger : Trigger
 {
-    private GameManager gm;
 
-    private void Awake()
-    {
-        gm = FindAnyObjectByType<GameManager>();
-
-        if (gm == null)
-        {
-            Debug.LogError("FallZone could not find GameManager!");
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            gm.RespawnPlayer();
+            TriggerEffect();
         }
     }
 
+    protected override void TriggerEffect()
+    {
+        gm.RespawnPlayer();
+    }
 }

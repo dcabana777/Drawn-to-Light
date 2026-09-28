@@ -73,15 +73,27 @@ public class AutomaticLight : LightState
 
         currentRailDistance += movementDirection * movementSpeed * deltaTime;
 
-        if (currentRailDistance >= rail.Length)
+        if (rail.AutomaticEndBehavior == LightRail.AutomaticRailEndBehavior.Loop)
         {
-            currentRailDistance = rail.Length;
-            movementDirection = -1;
+            // preserve overshoot so movement remains smooth
+            if (currentRailDistance > rail.Length)
+                currentRailDistance -= rail.Length;
+            else if (currentRailDistance < 0f)
+                currentRailDistance += rail.Length;
         }
-        else if (currentRailDistance <= 0f)
+        
+        else
         {
-            currentRailDistance = 0f;
-            movementDirection = 1;
+            if (currentRailDistance >= rail.Length)
+            {
+                currentRailDistance = rail.Length;
+                movementDirection = -1;
+            }
+            else if (currentRailDistance <= 0f)
+            {
+                currentRailDistance = 0f;
+                movementDirection = 1;
+            }
         }
 
         transform.position = rail.GetPointAtDistance(currentRailDistance);

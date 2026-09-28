@@ -26,6 +26,8 @@ public class GameRoom : MonoBehaviour
     [Header("Camera Gizmo")]
     [SerializeField] private float previewOrthographicSize = 10f;
     [SerializeField] private float previewAspectRatio = 16f / 9f;
+    [SerializeField] private Color previewCenterColor = Color.yellow;
+    [SerializeField] private Color previewBoundaryColor = Color.red;
 
     public bool FollowPlayerHorizontally => followPlayerHorizontally;
     public bool FollowPlayerVertically => followPlayerVertically;
@@ -103,7 +105,7 @@ public class GameRoom : MonoBehaviour
         CurrentCheckPoint = initialCheckPoint;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         DrawCameraBoundsGizmo();
     }
@@ -194,14 +196,14 @@ public class GameRoom : MonoBehaviour
                 0f
             );
 
-        Gizmos.color = Color.yellow;
+        Gizmos.color = previewCenterColor;
 
         Gizmos.DrawWireCube(
             centerBoundsCenter,
             centerBoundsSize
         );
 
-        Gizmos.color = Color.red;
+        Gizmos.color = previewBoundaryColor;
 
         Gizmos.DrawWireCube(
             visibleBoundsCenter,

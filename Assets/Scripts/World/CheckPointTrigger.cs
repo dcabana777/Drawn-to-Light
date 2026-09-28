@@ -1,26 +1,19 @@
 using UnityEngine;
 
-public class CheckPointTrigger : MonoBehaviour
+public class CheckPointTrigger : Trigger
 {
-    private GameManager gm;
-    
     [SerializeField] private CheckPoint newCheckPoint;
-
-    private void Awake()
-    {
-        gm = FindAnyObjectByType<GameManager>();
-
-        if (gm == null)
-        {
-            Debug.LogError("CheckPointTrigger could not find GameManager!");
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player"))
             return;
 
+        TriggerEffect();
+    }
+
+    protected override void TriggerEffect()
+    {
         gm.CurrentRoom.ChangeCheckPoint(newCheckPoint);
     }
 }

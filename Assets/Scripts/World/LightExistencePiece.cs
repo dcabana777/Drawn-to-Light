@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class LightExistencePiece : MonoBehaviour
     private SpriteRenderer renderer;
     private Collider2D col;
 
+    public event Action<bool> ExistenceChanged;
+    public bool Exists => exists;
 
 
     private void Awake()
@@ -69,9 +72,12 @@ public class LightExistencePiece : MonoBehaviour
     private void SetExistence(bool shouldExist)
     {
         exists = shouldExist;
+        
         if (rb != null) rb.simulated = shouldExist;
         if (renderer != null) renderer.enabled = shouldExist;
         if (col != null) col.enabled = shouldExist;
+
+        ExistenceChanged?.Invoke(Exists);
     }
 
     public void SetDetectorStatus(LightDetector detector, bool isLit)

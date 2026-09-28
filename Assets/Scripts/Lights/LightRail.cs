@@ -3,6 +3,17 @@ using UnityEngine;
 
 public class LightRail : MonoBehaviour
 {
+    public enum AutomaticRailEndBehavior
+    {
+        Bounce,
+        Loop
+    }
+
+    [Header("Automatic Light Behavior")]
+    [SerializeField]
+    private AutomaticRailEndBehavior automaticEndBehavior =
+        AutomaticRailEndBehavior.Bounce;
+    
     [Header("Rail Shape")]
     [SerializeField]
     private Vector2[] points =
@@ -23,6 +34,7 @@ public class LightRail : MonoBehaviour
     private readonly List<Vector2> sampledPoints = new();
     private readonly List<float> cumulativeDistances = new();
 
+    public AutomaticRailEndBehavior AutomaticEndBehavior => automaticEndBehavior;
     public float Length { get; private set; }
 
     private void Awake()
