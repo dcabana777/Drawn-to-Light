@@ -1,11 +1,12 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Interactable : MonoBehaviour
 {
     [Header("Interaction Settings")]
     [SerializeField] private bool showInteractionPrompt = false;
     public bool ShowInteractionPrompt => showInteractionPrompt;
+    [SerializeField] private UnityEvent onSuccessfulInteract;
     
     [Header("Limited Use Settings")]
     [SerializeField] private bool limitUses;
@@ -39,7 +40,8 @@ public abstract class Interactable : MonoBehaviour
             isInteracting = false;
         }
 
-        if (!succeeded) return false;
+        if (succeeded) onSuccessfulInteract?.Invoke();
+        else return false;
         
         if (limitUses)
         {

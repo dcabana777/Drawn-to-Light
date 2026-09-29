@@ -38,6 +38,9 @@ public class LightToggleSwitch : Interactable
         
         foreach (LightState light in affectedLights)
         {
+            if (light == null)
+                continue;
+            
             light.ToggleLight();
         }
 
