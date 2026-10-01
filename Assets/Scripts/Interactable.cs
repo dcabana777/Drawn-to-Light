@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class Interactable : MonoBehaviour
+public class Interactable : MonoBehaviour, IRoomResettable
 {
     [Header("Interaction Settings")]
     [SerializeField] private bool showInteractionPrompt = false;
@@ -13,6 +13,8 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField, Min(1)] private int maxUses;
     private int currentUseCount;
     private bool isInteracting;
+
+    private int savedUseCount;
 
     protected virtual void Awake()
     {
@@ -61,5 +63,19 @@ public abstract class Interactable : MonoBehaviour
         showInteractionPrompt = false;
     }
     
-    protected abstract bool OnInteract();
+    // Default trigger OnInteract() always returns true, do not call base.OnTrigger() in override functions
+    protected virtual bool OnInteract()
+    { 
+        return true;
+    }
+
+    public virtual void SaveState()
+    {
+        savedUseCount = currentUseCount;
+    }
+
+    public virtual void RestoreState()
+    {
+        currentUseCount = savedUseCount;
+    }
 }

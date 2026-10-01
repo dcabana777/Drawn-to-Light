@@ -12,9 +12,7 @@ public class RoomTransition : MonoBehaviour
     
     private GameManager gm;
 
-    [Header("Connected Rooms")]
-    [SerializeField] private GameRoom transitionRoomOne;
-    [SerializeField] private GameRoom transitionRoomTwo;
+    [SerializeField] private GameRoom newRoom;
 
     [Header("Transition Settings")]
     [SerializeField] private RoomTransitionType transitionType;
@@ -25,17 +23,11 @@ public class RoomTransition : MonoBehaviour
     [SerializeField] private Transform panCameraFocusOverride;
     
     [Header("Transfer Entry Points")]
-    [Tooltip("Position just outside Room One, before the player walks in.")]
-    [SerializeField] private Transform roomOneEntryStart;
+    [Tooltip("Position just outside the new room, before the player walks in.")]
+    [SerializeField] private Transform roomEntryStart;
 
-    [Tooltip("Position inside Room One where control is restored.")]
-    [SerializeField] private Transform roomOneEntryEnd;
-
-    [Tooltip("Position just outside Room Two, before the player walks in.")]
-    [SerializeField] private Transform roomTwoEntryStart;
-
-    [Tooltip("Position inside Room Two where control is restored.")]
-    [SerializeField] private Transform roomTwoEntryEnd;
+    [Tooltip("Position inside the new room where control is restored.")]
+    [SerializeField] private Transform roomEntryEnd;
 
     [Header("Transfer Movement")]
     [SerializeField] private float playerEntrySpeed = 3f;
@@ -60,29 +52,6 @@ public class RoomTransition : MonoBehaviour
         }
 
         if (gm.IsRoomTransitioning) return;
-        
-        GameRoom currentRoom = gm.CurrentRoom;
-        GameRoom newRoom;
-        Transform destinationEntryStart;
-        Transform destinationEntryEnd;
-
-        if (currentRoom == transitionRoomOne)
-        {
-            newRoom = transitionRoomTwo;
-            destinationEntryStart = roomTwoEntryStart;
-            destinationEntryEnd = roomTwoEntryEnd;
-        }
-        else if (currentRoom == transitionRoomTwo)
-        {
-            newRoom = transitionRoomOne;
-            destinationEntryStart = roomOneEntryStart;
-            destinationEntryEnd = roomOneEntryEnd;
-        }
-        else
-        {
-            Debug.LogWarning("Entered room transition from a room not connected to it.");
-            return;
-        }
 
         if (transitionType == RoomTransitionType.Pan)
         {
@@ -95,7 +64,7 @@ public class RoomTransition : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PerformTransferTransition(other, newRoom, destinationEntryStart, destinationEntryEnd));
+            StartCoroutine(PerformTransferTransition(other, newRoom, roomEntryStart, roomEntryEnd));
         }
     }
 

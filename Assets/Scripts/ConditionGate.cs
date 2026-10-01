@@ -8,10 +8,11 @@ public class ConditionGate : MonoBehaviour
 
     [Header("Behavior")]
     [SerializeField] private bool triggerOnlyOnce = true;
+    [Tooltip("How often whileMet and whileNotMet events are invoked. If set to 0 will call every frame.")]
 
     [Header("Effects")]
-    [SerializeField] private UnityEvent onConditionsMet;
-    [SerializeField] private UnityEvent onConditionsLost;
+    [SerializeField] private UnityEvent onMet;
+    [SerializeField] private UnityEvent onLost;
 
     private bool conditionsWereMet;
     private bool hasTriggered;
@@ -60,7 +61,7 @@ public class ConditionGate : MonoBehaviour
                 conditionsWereMet = true;
                 hasTriggered = true;
 
-                onConditionsMet?.Invoke();
+                onMet?.Invoke();
             }
         }
         else
@@ -71,7 +72,7 @@ public class ConditionGate : MonoBehaviour
 
                 if (!triggerOnlyOnce)
                 {
-                    onConditionsLost?.Invoke();
+                    onLost?.Invoke();
                 }
             }
         }

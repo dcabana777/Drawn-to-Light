@@ -3905,6 +3905,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 412926671}
   initialLightGroup: 32
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &38882480
 GameObject:
   m_ObjectHideFlags: 0
@@ -9736,98 +9738,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!1 &72343127
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 72343128}
-  - component: {fileID: 72343130}
-  - component: {fileID: 72343129}
-  m_Layer: 0
-  m_Name: EndEntryLightGroupTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &72343128
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 72343127}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 104, y: -7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 412926672}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &72343129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 72343127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad8398f3d56f514ebe4d6e8ea0c0f0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightGroupTrigger
-  newLightGroup: 32
---- !u!61 &72343130
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 72343127}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 4}
-  m_EdgeRadius: 0
 --- !u!1 &74205447
 GameObject:
   m_ObjectHideFlags: 0
@@ -13161,9 +13071,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 97694397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
+  m_Script: {fileID: 11500000, guid: 5757e845a3dd34842a571797b3a105fe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
+  m_EditorClassIdentifier: Assembly-CSharp::Interactable
   showInteractionPrompt: 1
   onSuccessfulInteract:
     m_PersistentCalls:
@@ -13180,10 +13090,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1031490466}
+        m_TargetAssemblyTypeName: AutomaticLight, Assembly-CSharp
+        m_MethodName: SetLightEnabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   limitUses: 1
   maxUses: 1
-  lightGroup: 23
-  interactionCooldown: 2.5
 --- !u!1 &98167249
 GameObject:
   m_ObjectHideFlags: 0
@@ -13942,146 +13862,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!1 &106612639
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 106612642}
-  - component: {fileID: 106612641}
-  - component: {fileID: 106612640}
-  m_Layer: 5
-  m_Name: EndOfPlaytest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &106612640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106612639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: 'End of Playtest
-
-
-    Thanks for Playing!'
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4280329690
-  m_fontColor: {r: 0.854902, g: 0.6470588, b: 0.1254902, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_characterHorizontalScale: 1
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_EmojiFallbackSupport: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &106612641
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106612639}
-  m_CullTransparentMesh: 1
---- !u!224 &106612642
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106612639}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1384321519}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &106896918
 GameObject:
   m_ObjectHideFlags: 0
@@ -19313,6 +19093,121 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &151206987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 151206988}
+  - component: {fileID: 151206990}
+  - component: {fileID: 151206989}
+  m_Layer: 0
+  m_Name: InSubRoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &151206988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151206987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1726275764}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &151206989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151206987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddef9d2ad4622d4d8dfb406d5a0e8a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionGate
+  requiredConditions:
+  - {fileID: 151206990}
+  triggerOnlyOnce: 0
+  onMet:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 938328886}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 708728237}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onLost:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 708728237}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 938328886}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &151206990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151206987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15f53c0626571a7408f53a39fcb37797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameCondition
+  startsMet: 0
 --- !u!1 &151768188
 GameObject:
   m_ObjectHideFlags: 0
@@ -19343,6 +19238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d94367452f4c4787fdc5dbc14c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &151768190
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24000,9 +23898,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1384321519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 500}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &189020459
@@ -27935,8 +27833,9 @@ GameObject:
   - component: {fileID: 212571855}
   - component: {fileID: 212571857}
   - component: {fileID: 212571856}
+  - component: {fileID: 212571858}
   m_Layer: 0
-  m_Name: OldLightGroupTrigger
+  m_Name: LeftRoomTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27951,7 +27850,7 @@ Transform:
   m_GameObject: {fileID: 212571854}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40, y: 0, z: 0}
+  m_LocalPosition: {x: 20, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27969,6 +27868,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad8398f3d56f514ebe4d6e8ea0c0f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightGroupTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newLightGroup: 31
 --- !u!61 &212571857
 BoxCollider2D:
@@ -28014,8 +27916,35 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.5, y: 18}
+  m_Size: {x: 50, y: 18}
   m_EdgeRadius: 0
+--- !u!114 &212571858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212571854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ba2cf58f25eb14597f6327ad5bb4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Trigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6062606782510366607}
+        m_TargetAssemblyTypeName: LightController, Assembly-CSharp
+        m_MethodName: ChangeLightGroup
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 31
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &213092246
 GameObject:
   m_ObjectHideFlags: 0
@@ -38160,6 +38089,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 304890285}
 --- !u!114 &304890285
 MonoBehaviour:
@@ -38198,6 +38130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 304890287}
 --- !u!114 &304890287
 MonoBehaviour:
@@ -38213,6 +38148,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 991012667}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &306176685
 GameObject:
   m_ObjectHideFlags: 0
@@ -40556,9 +40493,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1384321519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 500}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &339722608
@@ -44381,6 +44318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 367687717}
 --- !u!114 &367687717
 MonoBehaviour:
@@ -44396,6 +44336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 991012667}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &369954390
 GameObject:
   m_ObjectHideFlags: 0
@@ -45210,6 +45152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 374258886}
 --- !u!114 &374258886
 MonoBehaviour:
@@ -45225,6 +45170,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 963281907}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &375782202
 GameObject:
   m_ObjectHideFlags: 0
@@ -49764,7 +49711,6 @@ Transform:
   - {fileID: 1716185649}
   - {fileID: 212571855}
   - {fileID: 1778693451}
-  - {fileID: 72343128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &413412347
@@ -52069,6 +52015,104 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &436798204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 436798205}
+  - component: {fileID: 436798207}
+  - component: {fileID: 436798206}
+  m_Layer: 0
+  m_Name: RoomFourToThree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &436798205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436798204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 585163430}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &436798206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436798204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
+  newRoom: {fileID: 412926671}
+  transitionType: 1
+  transitionDuration: 0
+  panCameraFocusOverride: {fileID: 0}
+  roomEntryStart: {fileID: 1131891282}
+  roomEntryEnd: {fileID: 1964662825}
+  playerEntrySpeed: 3
+--- !u!61 &436798207
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436798204}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 4}
+  m_EdgeRadius: 0
 --- !u!1 &439611724
 GameObject:
   m_ObjectHideFlags: 0
@@ -52297,8 +52341,8 @@ GameObject:
   m_Component:
   - component: {fileID: 442379775}
   - component: {fileID: 442379778}
-  - component: {fileID: 442379777}
   - component: {fileID: 442379776}
+  - component: {fileID: 442379779}
   m_Layer: 0
   m_Name: CheckpointTwo
   m_TagString: Untagged
@@ -52367,19 +52411,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 5}
   m_EdgeRadius: 0
---- !u!114 &442379777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 442379774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
-  newCheckPoint: {fileID: 442379778}
 --- !u!114 &442379778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52394,6 +52425,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 1062389195}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
+--- !u!114 &442379779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442379774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ba2cf58f25eb14597f6327ad5bb4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Trigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1062389195}
+        m_TargetAssemblyTypeName: GameRoom, Assembly-CSharp
+        m_MethodName: ChangeCheckPoint
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 442379778}
+          m_ObjectArgumentAssemblyTypeName: CheckPoint, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &443689039
 GameObject:
   m_ObjectHideFlags: 0
@@ -55916,7 +55976,7 @@ Transform:
   m_GameObject: {fileID: 479444679}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -0.9850082, z: 0}
+  m_LocalPosition: {x: 3.5, y: -0.9850082, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -60883,7 +60943,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -60942,9 +61002,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1384321519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 475}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &528082383
@@ -62056,6 +62116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 963281907}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!4 &534358495
 Transform:
   m_ObjectHideFlags: 0
@@ -66339,8 +66401,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 585163430}
-  - component: {fileID: 585163429}
-  - component: {fileID: 585163428}
   m_Layer: 0
   m_Name: 03_04_Transition
   m_TagString: Untagged
@@ -66348,74 +66408,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &585163428
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585163427}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.5, y: 4}
-  m_EdgeRadius: 0
---- !u!114 &585163429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585163427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 412926671}
-  transitionRoomTwo: {fileID: 963281907}
-  transitionType: 1
-  transitionDuration: 0
-  panCameraFocusOverride: {fileID: 0}
-  roomOneEntryStart: {fileID: 1131891282}
-  roomOneEntryEnd: {fileID: 1964662825}
-  roomTwoEntryStart: {fileID: 1131891282}
-  roomTwoEntryEnd: {fileID: 479444680}
-  playerEntrySpeed: 3
 --- !u!4 &585163430
 Transform:
   m_ObjectHideFlags: 0
@@ -66434,6 +66426,8 @@ Transform:
   - {fileID: 1131891282}
   - {fileID: 1964662825}
   - {fileID: 479444680}
+  - {fileID: 1776360489}
+  - {fileID: 436798205}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &585433286
@@ -69539,6 +69533,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 618123784}
 --- !u!61 &618123786
 BoxCollider2D:
@@ -76668,6 +76665,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 674367498}
 --- !u!1 &676271194
 GameObject:
@@ -76896,8 +76896,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 677372795}
-  - component: {fileID: 677372794}
-  - component: {fileID: 677372793}
   m_Layer: 0
   m_Name: 01_02_Transition
   m_TagString: Untagged
@@ -76905,74 +76903,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &677372793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677372792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 1062389195}
-  transitionRoomTwo: {fileID: 1282988821}
-  transitionType: 1
-  transitionDuration: 0
-  panCameraFocusOverride: {fileID: 0}
-  roomOneEntryStart: {fileID: 1694927544}
-  roomOneEntryEnd: {fileID: 541965158}
-  roomTwoEntryStart: {fileID: 336600505}
-  roomTwoEntryEnd: {fileID: 1170036493}
-  playerEntrySpeed: 3
---- !u!61 &677372794
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677372792}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -1}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 13, y: 3.5}
-  m_EdgeRadius: 0
 --- !u!4 &677372795
 Transform:
   m_ObjectHideFlags: 0
@@ -76992,6 +76922,8 @@ Transform:
   - {fileID: 541965158}
   - {fileID: 336600505}
   - {fileID: 1170036493}
+  - {fileID: 1925134288}
+  - {fileID: 1337695271}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &677679298
@@ -79847,6 +79779,132 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &708728237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 708728241}
+  - component: {fileID: 708728240}
+  - component: {fileID: 708728239}
+  - component: {fileID: 708728238}
+  m_Layer: 0
+  m_Name: EnterSubRoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &708728238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708728237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ba2cf58f25eb14597f6327ad5bb4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Trigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 151206990}
+        m_TargetAssemblyTypeName: GameCondition, Assembly-CSharp
+        m_MethodName: MeetCondition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &708728239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708728237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
+  newRoom: {fileID: 1854145815}
+  transitionType: 0
+  transitionDuration: 0.5
+  panCameraFocusOverride: {fileID: 0}
+  roomEntryStart: {fileID: 0}
+  roomEntryEnd: {fileID: 0}
+  playerEntrySpeed: 3
+--- !u!61 &708728240
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708728237}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 4}
+  m_EdgeRadius: 0
+--- !u!4 &708728241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708728237}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1726275764}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &710248335
 GameObject:
   m_ObjectHideFlags: 0
@@ -85344,6 +85402,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 780598033}
 --- !u!61 &780598035
 BoxCollider2D:
@@ -85699,15 +85760,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 1282988821}
-  transitionRoomTwo: {fileID: 412926671}
+  newRoom: {fileID: 412926671}
   transitionType: 0
   transitionDuration: 1.5
   panCameraFocusOverride: {fileID: 0}
-  roomOneEntryStart: {fileID: 0}
-  roomOneEntryEnd: {fileID: 0}
-  roomTwoEntryStart: {fileID: 0}
-  roomTwoEntryEnd: {fileID: 0}
+  roomEntryStart: {fileID: 0}
+  roomEntryEnd: {fileID: 0}
   playerEntrySpeed: 0
 --- !u!4 &782581508
 Transform:
@@ -86268,6 +86326,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d94367452f4c4787fdc5dbc14c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &785015373
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -91122,7 +91183,7 @@ MonoBehaviour:
   limitUses: 1
   maxUses: 1
   objectsToActivate:
-  - {fileID: 106612639}
+  - {fileID: 0}
   setObjectActive: 01
 --- !u!1 &824192506
 GameObject:
@@ -95294,6 +95355,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 872823105}
 --- !u!114 &872823105
 MonoBehaviour:
@@ -98879,6 +98943,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 910405763}
 --- !u!114 &910405763
 MonoBehaviour:
@@ -98894,6 +98961,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 963281907}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &911700784
 GameObject:
   m_ObjectHideFlags: 0
@@ -100575,6 +100644,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d94367452f4c4787fdc5dbc14c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &931659562
 GameObject:
   m_ObjectHideFlags: 0
@@ -101759,6 +101831,144 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &938328886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 938328887}
+  - component: {fileID: 938328889}
+  - component: {fileID: 938328888}
+  - component: {fileID: 938328890}
+  m_Layer: 0
+  m_Name: BackToRoomFour
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &938328887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938328886}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1726275764}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &938328888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938328886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
+  newRoom: {fileID: 963281907}
+  transitionType: 0
+  transitionDuration: 0.5
+  panCameraFocusOverride: {fileID: 0}
+  roomEntryStart: {fileID: 0}
+  roomEntryEnd: {fileID: 0}
+  playerEntrySpeed: 3
+--- !u!61 &938328889
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938328886}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 4}
+  m_EdgeRadius: 0
+--- !u!114 &938328890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938328886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ba2cf58f25eb14597f6327ad5bb4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Trigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 963281907}
+        m_TargetAssemblyTypeName: GameRoom, Assembly-CSharp
+        m_MethodName: ChangeCheckPoint
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 534358494}
+          m_ObjectArgumentAssemblyTypeName: CheckPoint, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 151206990}
+        m_TargetAssemblyTypeName: GameCondition, Assembly-CSharp
+        m_MethodName: ClearCondition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &938990306
 GameObject:
   m_ObjectHideFlags: 0
@@ -102098,6 +102308,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 939527713}
 --- !u!114 &939527713
 MonoBehaviour:
@@ -102137,6 +102350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 939527715}
 --- !u!114 &939527715
 MonoBehaviour:
@@ -102152,6 +102368,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 991012667}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &939786332
 GameObject:
   m_ObjectHideFlags: 0
@@ -102703,7 +102921,7 @@ Transform:
   m_GameObject: {fileID: 940195136}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18, y: -7, z: 0}
+  m_LocalPosition: {x: -16, y: -8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -102723,6 +102941,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 963281907}
   initialLightGroup: 41
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &940907927
 GameObject:
   m_ObjectHideFlags: 0
@@ -103326,6 +103546,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d94367452f4c4787fdc5dbc14c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &953517474
 Transform:
   m_ObjectHideFlags: 0
@@ -103399,6 +103622,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 1976604593}
 --- !u!1 &953629999
 GameObject:
@@ -104912,6 +105138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 968130896}
 --- !u!61 &968130898
 BoxCollider2D:
@@ -115749,6 +115978,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d94367452f4c4787fdc5dbc14c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1053561497
 GameObject:
   m_ObjectHideFlags: 0
@@ -121118,6 +121350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda7171175cffb8428fba3c39a883e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightPassToggler
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   lightGroupsToToggle: 3e000000
 --- !u!61 &1104029703
 BoxCollider2D:
@@ -123547,7 +123782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52af74f1438171842996d9df7581e1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  initialRoom: {fileID: 412775727}
+  initialRoom: {fileID: 1931582076}
   player: {fileID: 5289689783923424215}
 --- !u!4 &1126570365
 Transform:
@@ -127480,15 +127715,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 963281907}
-  transitionRoomTwo: {fileID: 412775727}
+  newRoom: {fileID: 0}
   transitionType: 1
   transitionDuration: 0
   panCameraFocusOverride: {fileID: 0}
-  roomOneEntryStart: {fileID: 1709689440}
-  roomOneEntryEnd: {fileID: 1745152404}
-  roomTwoEntryStart: {fileID: 1709689440}
-  roomTwoEntryEnd: {fileID: 247792601}
+  roomEntryStart: {fileID: 0}
+  roomEntryEnd: {fileID: 0}
   playerEntrySpeed: 7
 --- !u!61 &1170029894
 BoxCollider2D:
@@ -133401,6 +133633,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 1235579647}
 --- !u!114 &1235579647
 MonoBehaviour:
@@ -133416,6 +133651,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 963281907}
   initialLightGroup: 41
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &1236130988
 GameObject:
   m_ObjectHideFlags: 0
@@ -138923,9 +139160,21 @@ MonoBehaviour:
   - {fileID: 1293052494}
   - {fileID: 588968694}
   triggerOnlyOnce: 1
-  onConditionsMet:
+  onMet:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1942118521}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1732373604}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -138950,19 +139199,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1942118521}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  onConditionsLost:
+  onLost:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1280791421
@@ -143187,6 +143424,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 1062389195}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!4 &1320519917
 Transform:
   m_ObjectHideFlags: 0
@@ -145593,6 +145832,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d94367452f4c4787fdc5dbc14c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1335917981
 GameObject:
   m_ObjectHideFlags: 0
@@ -146048,6 +146290,104 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &1337695270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1337695271}
+  - component: {fileID: 1337695273}
+  - component: {fileID: 1337695272}
+  m_Layer: 0
+  m_Name: RoomTwoToOne
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1337695271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337695270}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 677372795}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1337695272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337695270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
+  newRoom: {fileID: 1062389195}
+  transitionType: 1
+  transitionDuration: 0
+  panCameraFocusOverride: {fileID: 0}
+  roomEntryStart: {fileID: 1694927544}
+  roomEntryEnd: {fileID: 541965158}
+  playerEntrySpeed: 5
+--- !u!61 &1337695273
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337695270}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 5}
+  m_EdgeRadius: 0
 --- !u!1 &1338054801
 GameObject:
   m_ObjectHideFlags: 0
@@ -149997,7 +150337,6 @@ RectTransform:
   - {fileID: 1649995834}
   - {fileID: 339722606}
   - {fileID: 526232235}
-  - {fileID: 106612642}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -158716,8 +159055,6 @@ MonoBehaviour:
       m_Calls: []
   limitUses: 0
   maxUses: 0
-  mainCamera: {fileID: 1662983348}
-  playerInput: {fileID: 5586346793961323282}
 --- !u!1 &1457991684
 GameObject:
   m_ObjectHideFlags: 0
@@ -161862,9 +162199,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1484964729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5147c25127dd3da4497e9811da01a1af, type: 3}
+  m_Script: {fileID: 11500000, guid: 5757e845a3dd34842a571797b3a105fe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightToggleSwitch
+  m_EditorClassIdentifier: Assembly-CSharp::Interactable
   showInteractionPrompt: 1
   onSuccessfulInteract:
     m_PersistentCalls:
@@ -161881,10 +162218,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6671883044732222803}
+        m_TargetAssemblyTypeName: AutomaticLight, Assembly-CSharp
+        m_MethodName: SetLightEnabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   limitUses: 1
   maxUses: 1
-  lightGroup: 22
-  interactionCooldown: 2.5
 --- !u!1 &1485611166
 GameObject:
   m_ObjectHideFlags: 0
@@ -164089,6 +164436,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d94367452f4c4787fdc5dbc14c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1509405105
 GameObject:
   m_ObjectHideFlags: 0
@@ -178233,15 +178583,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 963281907}
-  transitionRoomTwo: {fileID: 650191296}
+  newRoom: {fileID: 0}
   transitionType: 1
   transitionDuration: 0
   panCameraFocusOverride: {fileID: 0}
-  roomOneEntryStart: {fileID: 2061771901}
-  roomOneEntryEnd: {fileID: 100988075}
-  roomTwoEntryStart: {fileID: 2061771901}
-  roomTwoEntryEnd: {fileID: 334588512}
+  roomEntryStart: {fileID: 0}
+  roomEntryEnd: {fileID: 0}
   playerEntrySpeed: 3
 --- !u!4 &1639191172
 Transform:
@@ -179839,9 +180186,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1384321519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 500}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1649995836
@@ -180678,6 +181025,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 1656390914}
 --- !u!61 &1656390916
 BoxCollider2D:
@@ -181662,7 +182012,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662983348}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4205a8cd78734164a97d19d1f02398cc, type: 3}
   m_Name: 
@@ -184317,6 +184667,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 650191296}
   initialLightGroup: 51
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!4 &1690496370
 Transform:
   m_ObjectHideFlags: 0
@@ -187655,6 +188007,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d94367452f4c4787fdc5dbc14c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &1716185651
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -188403,9 +188758,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1726275764}
-  - component: {fileID: 1726275763}
-  - component: {fileID: 1726275762}
-  - component: {fileID: 1726275765}
   m_Layer: 0
   m_Name: Room_04B_ButtonRoom
   m_TagString: Untagged
@@ -188413,74 +188765,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &1726275762
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726275761}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.003, y: 4}
-  m_EdgeRadius: 0
---- !u!114 &1726275763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726275761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 963281907}
-  transitionRoomTwo: {fileID: 1854145815}
-  transitionType: 0
-  transitionDuration: 0.5
-  panCameraFocusOverride: {fileID: 1854145814}
-  roomOneEntryStart: {fileID: 0}
-  roomOneEntryEnd: {fileID: 0}
-  roomTwoEntryStart: {fileID: 0}
-  roomTwoEntryEnd: {fileID: 0}
-  playerEntrySpeed: 3
 --- !u!4 &1726275764
 Transform:
   m_ObjectHideFlags: 0
@@ -188501,21 +188785,11 @@ Transform:
   - {fileID: 881625015}
   - {fileID: 1854145814}
   - {fileID: 534358495}
+  - {fileID: 938328887}
+  - {fileID: 708728241}
+  - {fileID: 151206988}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1726275765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726275761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
-  newCheckPoint: {fileID: 534358494}
 --- !u!1 &1731539696
 GameObject:
   m_ObjectHideFlags: 0
@@ -191342,15 +191616,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 650191296}
-  transitionRoomTwo: {fileID: 991012667}
+  newRoom: {fileID: 0}
   transitionType: 0
   transitionDuration: 1.5
   panCameraFocusOverride: {fileID: 0}
-  roomOneEntryStart: {fileID: 0}
-  roomOneEntryEnd: {fileID: 0}
-  roomTwoEntryStart: {fileID: 0}
-  roomTwoEntryEnd: {fileID: 0}
+  roomEntryStart: {fileID: 0}
+  roomEntryEnd: {fileID: 0}
   playerEntrySpeed: 3
 --- !u!4 &1752448557
 Transform:
@@ -191455,6 +191726,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4359db6e1db4c419da92de446cb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractOnTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   whatToInteract: {fileID: 1752448559}
 --- !u!1 &1753361302
 GameObject:
@@ -194075,6 +194349,104 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &1776360488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1776360489}
+  - component: {fileID: 1776360491}
+  - component: {fileID: 1776360490}
+  m_Layer: 0
+  m_Name: RoomThreeToFour
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1776360489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776360488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 585163430}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1776360490
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776360488}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 4}
+  m_EdgeRadius: 0
+--- !u!114 &1776360491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776360488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
+  newRoom: {fileID: 963281907}
+  transitionType: 1
+  transitionDuration: 0
+  panCameraFocusOverride: {fileID: 0}
+  roomEntryStart: {fileID: 1131891282}
+  roomEntryEnd: {fileID: 479444680}
+  playerEntrySpeed: 3
 --- !u!1 &1777229627
 GameObject:
   m_ObjectHideFlags: 0
@@ -194176,10 +194548,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1778693451}
   - component: {fileID: 1778693454}
-  - component: {fileID: 1778693453}
-  - component: {fileID: 1778693452}
+  - component: {fileID: 1778693455}
   m_Layer: 0
-  m_Name: NewCheckPointTrigger
+  m_Name: RightRoomTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194200,32 +194571,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 412926672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1778693452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1778693450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad8398f3d56f514ebe4d6e8ea0c0f0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightGroupTrigger
-  newLightGroup: 32
---- !u!114 &1778693453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1778693450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
-  newCheckPoint: {fileID: 38039161}
 --- !u!61 &1778693454
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -194260,7 +194605,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 17.812672, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -194270,8 +194615,47 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.5, y: 18}
+  m_Size: {x: 52.374657, y: 18}
   m_EdgeRadius: 0
+--- !u!114 &1778693455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778693450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ba2cf58f25eb14597f6327ad5bb4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Trigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 412926671}
+        m_TargetAssemblyTypeName: GameRoom, Assembly-CSharp
+        m_MethodName: ChangeCheckPoint
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 38039161}
+          m_ObjectArgumentAssemblyTypeName: CheckPoint, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6062606782510366607}
+        m_TargetAssemblyTypeName: LightController, Assembly-CSharp
+        m_MethodName: ChangeLightGroup
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 32
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1780740071
 GameObject:
   m_ObjectHideFlags: 0
@@ -195932,6 +196316,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 1788545217}
 --- !u!114 &1788545217
 MonoBehaviour:
@@ -195947,6 +196334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 991012667}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &1789667807
 GameObject:
   m_ObjectHideFlags: 0
@@ -196069,6 +196458,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 412775727}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!4 &1792355663
 Transform:
   m_ObjectHideFlags: 0
@@ -209254,15 +209645,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 991012667}
-  transitionRoomTwo: {fileID: 963281907}
+  newRoom: {fileID: 0}
   transitionType: 1
   transitionDuration: 0
   panCameraFocusOverride: {fileID: 0}
-  roomOneEntryStart: {fileID: 1059591390}
-  roomOneEntryEnd: {fileID: 1605008605}
-  roomTwoEntryStart: {fileID: 1059591390}
-  roomTwoEntryEnd: {fileID: 1292964774}
+  roomEntryStart: {fileID: 0}
+  roomEntryEnd: {fileID: 0}
   playerEntrySpeed: 3
 --- !u!1 &1912712158
 GameObject:
@@ -210973,6 +211361,104 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &1925134287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1925134288}
+  - component: {fileID: 1925134290}
+  - component: {fileID: 1925134289}
+  m_Layer: 0
+  m_Name: RoomOneToTwo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1925134288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925134287}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 677372795}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1925134289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925134287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
+  newRoom: {fileID: 1282988821}
+  transitionType: 1
+  transitionDuration: 0
+  panCameraFocusOverride: {fileID: 0}
+  roomEntryStart: {fileID: 336600505}
+  roomEntryEnd: {fileID: 1170036493}
+  playerEntrySpeed: 5
+--- !u!61 &1925134290
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925134287}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 5}
+  m_EdgeRadius: 0
 --- !u!1 &1926877356
 GameObject:
   m_ObjectHideFlags: 0
@@ -212300,15 +212786,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d5acb60d512d54189f2d560e9f11e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransition
-  transitionRoomOne: {fileID: 1931582076}
-  transitionRoomTwo: {fileID: 1062389195}
+  newRoom: {fileID: 1062389195}
   transitionType: 1
   transitionDuration: 0
   panCameraFocusOverride: {fileID: 0}
-  roomOneEntryStart: {fileID: 0}
-  roomOneEntryEnd: {fileID: 0}
-  roomTwoEntryStart: {fileID: 1756734142}
-  roomTwoEntryEnd: {fileID: 1159980091}
+  roomEntryStart: {fileID: 1756734142}
+  roomEntryEnd: {fileID: 1159980091}
   playerEntrySpeed: 5
 --- !u!4 &1931582078
 Transform:
@@ -215961,7 +216444,7 @@ Transform:
   m_GameObject: {fileID: 1964662824}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: -0.9850082, z: 0}
+  m_LocalPosition: {x: -3.5, y: -0.9850082, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -219026,6 +219509,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234abb69e12bb5047b0fc113b8084ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckPointTrigger
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   newCheckPoint: {fileID: 1976604593}
 --- !u!61 &1976604592
 BoxCollider2D:
@@ -219087,6 +219573,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 650191296}
   initialLightGroup: 51
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!1 &1976774744
 GameObject:
   m_ObjectHideFlags: 0
@@ -219646,6 +220134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 412926671}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!4 &1979316922
 Transform:
   m_ObjectHideFlags: 0
@@ -222431,6 +222921,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda7171175cffb8428fba3c39a883e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightPassToggler
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   lightGroupsToToggle: 3d000000
 --- !u!61 &2010784419
 BoxCollider2D:
@@ -225014,6 +225507,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 991012667}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!4 &2039339860
 Transform:
   m_ObjectHideFlags: 0
@@ -229144,6 +229639,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckPoint
   checkpointOwnerRoom: {fileID: 1282988821}
   initialLightGroup: -1
+  checkPointType: 1
+  checkpointPriority: 0
 --- !u!4 &2081202616
 Transform:
   m_ObjectHideFlags: 0
@@ -245101,7 +245598,7 @@ Transform:
   m_GameObject: {fileID: 5289689783923424215}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 203.1, y: -26.3, z: 0}
+  m_LocalPosition: {x: -60.3, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -246760,7 +247257,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5289689783923424215}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9667ed73678bf774187604a9b038eea2, type: 3}
   m_Name: 

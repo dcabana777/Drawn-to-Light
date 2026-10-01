@@ -13,7 +13,9 @@ public class AutomaticLight : LightState
     [SerializeField] private bool startMovingTowardEnd = true;
 
     private float currentRailDistance;
+    private float savedRailDistance;
     private int movementDirection;
+    private int savedMoveDirection;
 
     [Header("Automatic Rotation")]
     [SerializeField] private bool rotateAutomatically = true;
@@ -27,7 +29,9 @@ public class AutomaticLight : LightState
     [SerializeField] private bool startRotatingTowardMax = true;
 
     private float currentRotation;
+    private float savedRotation;
     private int rotationDirection;
+    private int savedRotateDirection;
 
     [Header("Rotation Gizmo")]
     [SerializeField] private float rotationGizmoRadius = 2f;
@@ -118,6 +122,26 @@ public class AutomaticLight : LightState
         transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
     }
 
+    public override void SaveState()
+    {
+        base.SaveState();
+        savedRailDistance = currentRailDistance;
+        savedMoveDirection = movementDirection;
+        savedRotateDirection = rotationDirection;
+        savedRotation = currentRotation;
+    }
+
+    public override void RestoreState()
+    {
+        base.RestoreState();
+        currentRailDistance = savedRailDistance;
+        movementDirection = savedMoveDirection;
+        currentRotation = savedRotation;
+        rotationDirection = savedRotateDirection;
+        transform.position = rail.GetPointAtDistance(currentRailDistance);
+        transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
+    }
+    
     private void OnDrawGizmosSelected()
     {
         DrawRotationGizmos();

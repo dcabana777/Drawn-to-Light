@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class Trigger : MonoBehaviour
+public class Trigger : MonoBehaviour
 {
     private GameManager gm;
     private bool isTriggering;
+
+    [SerializeField] private UnityEvent onTrigger;
     
     protected GameManager GM
     {
@@ -41,6 +44,7 @@ public abstract class Trigger : MonoBehaviour
         try 
         { 
             TriggerEffect();
+            onTrigger?.Invoke();
             return true;
         }
         finally
@@ -49,7 +53,10 @@ public abstract class Trigger : MonoBehaviour
         }
     }
 
-    protected abstract void TriggerEffect();
+    protected virtual void TriggerEffect()
+    {
+        // does not do anything by default
+    }
 
 
 }

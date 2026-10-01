@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public abstract class LightState : MonoBehaviour
+public abstract class LightState : MonoBehaviour, IRoomResettable
 {
     [Header("Light Settings")]
     [SerializeField] private int lightGroup = 1;
@@ -18,6 +18,10 @@ public abstract class LightState : MonoBehaviour
     [Header("Light Output")]
     [SerializeField] private Light2D visualLight;
     [SerializeField] private Collider2D gameplayLightCollider;
+
+    // reset information storage
+    private bool savedIsOn;
+
 
     public int LightGroup => lightGroup;
     public bool IsOn { get; private set; }
@@ -136,5 +140,15 @@ public abstract class LightState : MonoBehaviour
     public void ToggleLight()
     {
         SetLightEnabled(!IsOn);
+    }
+
+    public virtual void SaveState()
+    {
+        savedIsOn = IsOn;
+    }
+
+    public virtual void RestoreState()
+    {
+        IsOn = savedIsOn;
     }
 }

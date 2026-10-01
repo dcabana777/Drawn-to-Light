@@ -14,7 +14,7 @@ public class FixedAspectCamera : MonoBehaviour
 
     public float TargetAspect => (float)referenceWidth / referenceHeight;
 
-    private void Awake()
+    private void Start()
     {
         cam = GetComponent<Camera>();
 

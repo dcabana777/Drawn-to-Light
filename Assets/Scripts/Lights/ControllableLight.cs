@@ -7,12 +7,14 @@ public class ControllableLight : LightState
     [SerializeField] private float minRotation = -60f;
     [SerializeField] private float maxRotation = 60f;
     private float currentRotation;
+    private float savedRotation;
 
     [Header("Light Movement")]
     [SerializeField] private LightRail rail;
     [SerializeField] private float movementSpeed = 3f;
     [SerializeField, Range(0f, 1f)] private float startingRailPosition = 0.5f;
     private float currentRailDistance;
+    private float savedRailDistance;
 
     [Header("Rotation Gizmo")]
     [SerializeField] private float rotationGizmoRadius;
@@ -69,6 +71,22 @@ public class ControllableLight : LightState
         transform.position = rail.GetPointAtDistance(currentRailDistance);
     }
 
+    public override void SaveState()
+    {
+        base.SaveState();
+        savedRailDistance = currentRailDistance;
+        savedRotation = currentRotation;
+    }
+
+    public override void RestoreState()
+    {
+        base.RestoreState();
+        currentRailDistance = savedRailDistance;
+        currentRotation = savedRotation;
+        transform.position = rail.GetPointAtDistance(currentRailDistance);
+        transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
+    }
+    
     private void OnDrawGizmosSelected()
     {
         DrawRotationGizmos();
