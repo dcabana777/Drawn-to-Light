@@ -6,6 +6,8 @@ public class Interactable : MonoBehaviour, IRoomResettable
     [Header("Interaction Settings")]
     [SerializeField] private bool showInteractionPrompt = false;
     public bool ShowInteractionPrompt => showInteractionPrompt;
+    [SerializeField, Min(0f)] private float interactionCooldown = 0f;
+    private float nextInteractionTime;
     [SerializeField] private UnityEvent onSuccessfulInteract;
     
     [Header("Limited Use Settings")]
@@ -29,6 +31,9 @@ public class Interactable : MonoBehaviour, IRoomResettable
         if (limitUses && currentUseCount >= maxUses)
             return false;
 
+        if (Time.time < nextInteractionTime)
+            return false;
+
         isInteracting = true;
 
         bool succeeded;
@@ -44,6 +49,8 @@ public class Interactable : MonoBehaviour, IRoomResettable
 
         if (succeeded) onSuccessfulInteract?.Invoke();
         else return false;
+
+        nextInteractionTime = Time.time + interactionCooldown;
         
         if (limitUses)
         {

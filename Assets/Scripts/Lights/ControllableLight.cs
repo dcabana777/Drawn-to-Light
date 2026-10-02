@@ -43,9 +43,9 @@ public class ControllableLight : LightState
     }
 
 
-    public void HandleRemoteInput(int moveInput, int rotateInput, float deltaTime)
+    public void HandleRemoteInput(int moveInput, int rotateInput, float deltaTime, bool ignoreIsOn)
     {
-        if (!IsOn) return;
+        if (!IsOn && !ignoreIsOn) return;
         
         HandleRotation(rotateInput, deltaTime);
         HandleMovement(moveInput, deltaTime);

@@ -4,8 +4,6 @@ using System.Collections.Generic;
 public class LightToggleSwitch : Interactable
 {
     [SerializeField] private int lightGroup = 1;
-    [SerializeField, Min(0f)] private float interactionCooldown;
-    private float nextInteractionTime;
 
     private LightState[] affectedLights;
 
@@ -32,10 +30,6 @@ public class LightToggleSwitch : Interactable
     {
         if (affectedLights.Length == 0) return false;
 
-        if (Time.time < nextInteractionTime) return false;
-
-        nextInteractionTime = Time.time + interactionCooldown;
-        
         foreach (LightState light in affectedLights)
         {
             if (light == null)

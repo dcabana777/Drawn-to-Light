@@ -5,6 +5,7 @@ using UnityEngine;
 public class TimedLightMoveButton : Interactable
 {
     [SerializeField] private int lightGroup = 1;
+    [SerializeField] private bool ignoreIsOn = false;
     [SerializeField] private float lightDuration = 1f;
     [SerializeField, Range(-1, 1)] private int moveDirection = 0;
     [SerializeField, Range(-1, 1)] private int rotateDirection = 0;
@@ -55,7 +56,7 @@ public class TimedLightMoveButton : Interactable
                 if (light == null)
                     continue;
 
-                light.HandleRemoteInput(moveDirection, rotateDirection, Time.deltaTime);
+                light.HandleRemoteInput(moveDirection, rotateDirection, Time.deltaTime, ignoreIsOn);
             }
 
             elapsed += Time.deltaTime;

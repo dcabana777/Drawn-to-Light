@@ -1,14 +1,23 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ConditionGate : MonoBehaviour
 {
+    public enum ConditionGateType
+    {
+        All,
+        Any,
+        ExactlyOne
+    }
+    
     [Header("Requirements")]
     [SerializeField] private GameCondition[] requiredConditions;
+    [SerializeField] private ConditionGateType gateType;
+    [SerializeField] private bool invertResult = false;
 
     [Header("Behavior")]
     [SerializeField] private bool triggerOnlyOnce = true;
-    [Tooltip("How often whileMet and whileNotMet events are invoked. If set to 0 will call every frame.")]
 
     [Header("Effects")]
     [SerializeField] private UnityEvent onMet;
@@ -43,18 +52,25 @@ public class ConditionGate : MonoBehaviour
 
     private void EvaluateConditions()
     {
-        bool allMet = true;
+        bool shouldBeMet = false;
 
-        foreach (GameCondition condition in requiredConditions)
+        switch (gateType)
         {
-            if (condition == null || !condition.IsMet)
-            {
-                allMet = false;
+            case ConditionGateType.All:
+                shouldBeMet = EvaluateConditionsAll();
                 break;
-            }
+            case ConditionGateType.Any:
+                shouldBeMet = EvaluateConditionsAny();
+                break;
+            case ConditionGateType.ExactlyOne:
+                shouldBeMet = EvaluateConditionsOne();
+                break;
         }
 
-        if (allMet)
+        if (invertResult)
+            shouldBeMet = !shouldBeMet;
+
+        if (shouldBeMet)
         {
             if (!conditionsWereMet && (!triggerOnlyOnce || !hasTriggered))
             {
@@ -76,5 +92,50 @@ public class ConditionGate : MonoBehaviour
                 }
             }
         }
+    }
+    
+    
+    private bool EvaluateConditionsAll()
+    {
+        foreach (GameCondition condition in requiredConditions)
+        {
+            if (condition == null || !condition.IsMet)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private bool EvaluateConditionsAny()
+    {
+        foreach (GameCondition condition in requiredConditions)
+        {
+            if (condition != null && condition.IsMet)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool EvaluateConditionsOne()
+    {
+        bool foundOne = false;
+
+        foreach (GameCondition condition in requiredConditions)
+        {
+            if (condition != null && condition.IsMet)
+            {
+                if (!foundOne)
+                    foundOne = true;
+                else
+                    return false;
+            }
+        }
+
+        return foundOne;
     }
 }

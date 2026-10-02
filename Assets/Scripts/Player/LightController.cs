@@ -43,7 +43,8 @@ public class LightController : MonoBehaviour
             light.HandleRemoteInput(
                 moveInput,
                 rotateInput,
-                Time.deltaTime
+                Time.deltaTime,
+                false
             );
         }
     }
