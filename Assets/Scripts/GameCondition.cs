@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 
-public class GameCondition : MonoBehaviour
+public class GameCondition : MonoBehaviour, IRoomResettable
 {
     [SerializeField] private bool startsMet = false;
 
     public bool IsMet { get; private set; }
+    private bool savedIsMet;
 
     public event Action ConditionChanged;
 
@@ -36,5 +37,15 @@ public class GameCondition : MonoBehaviour
 
         IsMet = value;
         ConditionChanged?.Invoke();
+    }
+
+    public void SaveState()
+    {
+        savedIsMet = IsMet;
+    }
+
+    public void RestoreState()
+    {
+        IsMet = savedIsMet;
     }
 }

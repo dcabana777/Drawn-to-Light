@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ConditionGate : MonoBehaviour
+public class ConditionGate : MonoBehaviour, IRoomResettable
 {
     public enum ConditionGateType
     {
@@ -25,6 +25,7 @@ public class ConditionGate : MonoBehaviour
 
     private bool conditionsWereMet;
     private bool hasTriggered;
+    private bool savedHasTriggered;
 
     private void OnEnable()
     {
@@ -137,5 +138,15 @@ public class ConditionGate : MonoBehaviour
         }
 
         return foundOne;
+    }
+
+    public void SaveState()
+    {
+        savedHasTriggered = hasTriggered;
+    }
+
+    public void RestoreState()
+    {
+        hasTriggered = savedHasTriggered;
     }
 }

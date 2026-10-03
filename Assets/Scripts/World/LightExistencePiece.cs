@@ -51,6 +51,9 @@ public class LightExistencePiece : MonoBehaviour
         {
             if (exists && disappearanceCoroutine == null)
             {
+                if (!isActiveAndEnabled || !gameObject.activeInHierarchy)
+                    return;
+                
                 disappearanceCoroutine = StartCoroutine(DisappearAfterDelay());
             }
         }

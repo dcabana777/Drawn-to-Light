@@ -11,6 +11,7 @@ public class ControllableLight : LightState
 
     [Header("Light Movement")]
     [SerializeField] private LightRail rail;
+    [SerializeField] private bool useRailEndBehavior = false;
     [SerializeField] private float movementSpeed = 3f;
     [SerializeField, Range(0f, 1f)] private float startingRailPosition = 0.5f;
     private float currentRailDistance;
@@ -66,7 +67,18 @@ public class ControllableLight : LightState
 
         currentRailDistance += input * movementSpeed * deltaTime;
 
-        currentRailDistance = Mathf.Clamp(currentRailDistance, 0f, rail.Length);
+        if (useRailEndBehavior && rail.EndBehavior == LightRail.RailEndBehavior.Loop)
+        {
+            // preserve overshoot so movement remains smooth
+            if (currentRailDistance > rail.Length)
+                currentRailDistance -= rail.Length;
+            else if (currentRailDistance < 0f)
+                currentRailDistance += rail.Length;
+        }
+        else
+        {
+            currentRailDistance = Mathf.Clamp(currentRailDistance, 0f, rail.Length);
+        }
 
         transform.position = rail.GetPointAtDistance(currentRailDistance);
     }
@@ -74,16 +86,25 @@ public class ControllableLight : LightState
     public override void SaveState()
     {
         base.SaveState();
-        savedRailDistance = currentRailDistance;
         savedRotation = currentRotation;
+
+        if (rail != null)
+        {
+            savedRailDistance = currentRailDistance;
+        }
     }
 
     public override void RestoreState()
     {
         base.RestoreState();
-        currentRailDistance = savedRailDistance;
         currentRotation = savedRotation;
-        transform.position = rail.GetPointAtDistance(currentRailDistance);
+
+        if (rail != null)
+        {
+            currentRailDistance = savedRailDistance;
+            transform.position = rail.GetPointAtDistance(currentRailDistance);
+        }
+
         transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
     }
     

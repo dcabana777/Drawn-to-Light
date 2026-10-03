@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject Player => player;
     private Transform mainCamera;
 
+    public CheckPoint CurrentMajorCheckpoint;
+
 
     private void Awake()
     {
@@ -56,6 +58,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(MoveMainCameraToPosition(startingCameraPosition,0f));
 
         ChangePlayerLightGroup(CurrentRoom.MainLightGroup);
+
+        UpdateCurrentMajorCheckpoint(CurrentRoom.CurrentCheckPoint);
     }
 
     public IEnumerator MoveMainCameraToPosition(Vector3 targetPosition, float duration)
@@ -139,6 +143,23 @@ public class GameManager : MonoBehaviour
         CurrentRoom = newRoom;
 
         ChangePlayerLightGroup(CurrentRoom.MainLightGroup);
+
+        UpdateCurrentMajorCheckpoint(CurrentRoom.CurrentCheckPoint);
+    }
+
+    public void UpdateCurrentMajorCheckpoint(CheckPoint newCheckpoint)
+    {
+        if (CurrentMajorCheckpoint == null && newCheckpoint.Type == CheckPoint.CheckPointType.Major)
+            CurrentMajorCheckpoint = newCheckpoint;
+        
+        if (newCheckpoint.Type == CheckPoint.CheckPointType.Major)
+        {
+            // don't update MostRecentMajorCheckPoint if higher than new checkpoint's priority
+            if (CurrentMajorCheckpoint.CheckPointPriority > newCheckpoint.CheckPointPriority)
+                return;
+
+            CurrentMajorCheckpoint = newCheckpoint;
+        }
     }
 
     public void SetRoomTransitioning(bool transitioning)
@@ -146,6 +167,34 @@ public class GameManager : MonoBehaviour
         IsRoomTransitioning = transitioning;
     }
 
+    public void RestoreCheckPoint()
+    {
+        if (CurrentMajorCheckpoint == null)
+            return;
+        if (CurrentMajorCheckpoint.ThingsToReset == null)
+            return;
+
+        if (!CurrentMajorCheckpoint.HasSaved)
+        {
+            Debug.LogError("Tried to reset a room when no save exists!");
+            return;
+        }
+
+        IRoomResettable[] resettables = CurrentMajorCheckpoint.ThingsToReset;
+
+        foreach (IRoomResettable resettable in resettables)
+        {
+            resettable.RestoreState();
+        }
+        
+        // update current room and checkpoint, then respawn player at it
+        ChangeCurrentRoom(CurrentMajorCheckpoint.CheckPointOwnerRoom);
+
+        CurrentRoom.ChangeCheckPoint(CurrentMajorCheckpoint);
+
+        RespawnPlayer();
+    }
+    
     public void RespawnPlayer()
     {
         if (player == null)

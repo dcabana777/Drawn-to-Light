@@ -6,12 +6,13 @@ public class GameRoom : MonoBehaviour
     
     [Header("Room Details")]
     [Min(1)] public int RoomID;
+    [SerializeField] private string roomName;
+    public string RoomName => roomName;
     [SerializeField] private CheckPoint initialCheckPoint;
     [SerializeField] private int primaryControllableLightGroup;
 
     public int MainLightGroup { get; private set; }
     public CheckPoint CurrentCheckPoint { get; private set; }
-    public CheckPoint MostRecentMajorCheckPoint { get; private set; }
     public Transform CameraAnchor { get; private set; }
 
     [Header("Camera Follow")]
@@ -64,27 +65,6 @@ public class GameRoom : MonoBehaviour
         }
     }
 
-    public void ResetRoom(CheckPoint checkpoint)
-    {
-        IRoomResettable[] resettables = checkpoint.thingsToReset;
-
-        if (!checkpoint.HasSaved || resettables == null)
-        {
-            Debug.LogError("Tried to reset a room when no save exists!");
-        }
-
-        foreach (IRoomResettable resettable in resettables)
-        {
-            resettable.RestoreState();
-        }
-
-        // update room checkpoint and respawn player to it
-        ChangeCheckPoint(checkpoint);
-        gm.RespawnPlayer();
-    }
-    
-    
-    
     public Vector3 GetCameraPositionForFocus(Vector2 focusPosition)
     {
         Vector3 anchorPosition = GetCameraAnchorPosition();
@@ -121,14 +101,7 @@ public class GameRoom : MonoBehaviour
     {
         CurrentCheckPoint = checkpoint;
 
-        if (CurrentCheckPoint.Type == CheckPoint.CheckPointType.Major)
-        {
-            // don't update MostRecentMajorCheckPoint if higher than new checkpoint's priority
-            if (MostRecentMajorCheckPoint.CheckPointPriority > CurrentCheckPoint.CheckPointPriority)
-                return;
-
-            MostRecentMajorCheckPoint = CurrentCheckPoint;
-        }
+        gm.UpdateCurrentMajorCheckpoint(checkpoint);
     }
 
     private void OnDrawGizmos()

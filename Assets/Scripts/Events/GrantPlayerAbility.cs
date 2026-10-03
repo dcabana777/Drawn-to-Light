@@ -1,4 +1,3 @@
-using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class GrantPlayerAbility : Interactable
@@ -31,11 +30,6 @@ public class GrantPlayerAbility : Interactable
         {
             Debug.LogError("GrantPlayerAbility could not find the Player.");
         }
-    }
-
-    protected override void OnUseLimitReached()
-    {
-        gameObject.SetActive(false);
     }
 
     protected override bool OnInteract()
@@ -76,6 +70,23 @@ public class GrantPlayerAbility : Interactable
         lantern.enabled = true;
     }
 
+    public void RemoveLantern()
+    {
+        PlayerLantern lantern = player.GetComponent<PlayerLantern>();
+
+        if (lantern == null)
+        {
+            Debug.LogError("Player does not have a PlayerLantern component.");
+
+            return;
+        }
+
+        lantern.enabled = false;
+
+        if (abilityObject != null)
+            abilityObject.SetActive(false);
+    }
+
     private void GrantLightControl()
     {
         LightController lightController = player.GetComponent<LightController>();
@@ -88,6 +99,23 @@ public class GrantPlayerAbility : Interactable
         }
 
         lightController.enabled = true;
+    }
+
+    public void RemoveLightControl()
+    {
+        LightController lightController = player.GetComponent<LightController>();
+
+        if (lightController == null)
+        {
+            Debug.LogError("Player does not have a LightController component.");
+
+            return;
+        }
+
+        lightController.enabled = false;
+
+        if (abilityObject != null)
+            abilityObject.SetActive(false);
     }
 
     private void OnAbilityGranted()

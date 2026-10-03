@@ -2,8 +2,14 @@ Shader "Custom/DarkFogOverlay"
 {
     Properties
     {
-        _FogColor ("Fog Color", Color) = (0, 0, 0, 0.95)
+        [PerRendererData]
+        _MainTex ("Sprite Texture", 2D) = "white" {}
+
+        _FogColor ("Fog Color", Color) = (0, 0, 0, 0.97)
         _RevealMask ("Reveal Mask", 2D) = "black" {}
+
+        _RevealMultiplier ("Reveal Multiplier", Float) = 1
+        _RevealPower ("Reveal Power", Float) = 1
     }
 
     SubShader
@@ -11,7 +17,7 @@ Shader "Custom/DarkFogOverlay"
         Tags
         {
             "RenderType" = "Transparent"
-            "Queue" = "Transparent"
+            "Queue" = "Transparent+100"
             "RenderPipeline" = "UniversalPipeline"
         }
 
@@ -47,6 +53,8 @@ Shader "Custom/DarkFogOverlay"
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _FogColor;
+                float _RevealMultiplier;
+                float _RevealPower;
             CBUFFER_END
 
             Varyings vert(Attributes input)
@@ -54,7 +62,9 @@ Shader "Custom/DarkFogOverlay"
                 Varyings output;
 
                 output.positionHCS =
-                    TransformObjectToHClip(input.positionOS.xyz);
+                    TransformObjectToHClip(
+                        input.positionOS.xyz
+                    );
 
                 output.uv = input.uv;
 
@@ -63,14 +73,29 @@ Shader "Custom/DarkFogOverlay"
 
             half4 frag(Varyings input) : SV_Target
             {
-                half reveal =
+                half3 maskColor =
                     SAMPLE_TEXTURE2D(
                         _RevealMask,
                         sampler_RevealMask,
                         input.uv
-                    ).r;
+                    ).rgb;
 
-                reveal = saturate(reveal);
+                half reveal =
+                    max(
+                        maskColor.r,
+                        max(maskColor.g, maskColor.b)
+                    );
+
+                reveal =
+                    saturate(
+                        reveal * _RevealMultiplier
+                    );
+
+                reveal =
+                    pow(
+                        reveal,
+                        max(_RevealPower, 0.001)
+                    );
 
                 half4 fog = _FogColor;
 

@@ -23,16 +23,16 @@ public class Interactable : MonoBehaviour, IRoomResettable
         currentUseCount = 0;
     }
     
-    public bool Interact()
+    public void Interact()
     {
         if (isInteracting || !isActiveAndEnabled)
-            return false;
+            return;
 
         if (limitUses && currentUseCount >= maxUses)
-            return false;
+            return;
 
         if (Time.time < nextInteractionTime)
-            return false;
+            return;
 
         isInteracting = true;
 
@@ -48,7 +48,7 @@ public class Interactable : MonoBehaviour, IRoomResettable
         }
 
         if (succeeded) onSuccessfulInteract?.Invoke();
-        else return false;
+        else return;
 
         nextInteractionTime = Time.time + interactionCooldown;
         
@@ -61,8 +61,6 @@ public class Interactable : MonoBehaviour, IRoomResettable
                 OnUseLimitReached();
             }
         }
-        
-        return true;
     }
 
     protected virtual void OnUseLimitReached()

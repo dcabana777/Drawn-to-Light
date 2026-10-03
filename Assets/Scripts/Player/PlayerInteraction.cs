@@ -9,17 +9,27 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private LayerMask interactableLayer;
 
     [Header("Interaction Prompt")]
-    [SerializeField] private TMP_Text interactionPrompt;
-    [SerializeField] private string interactionPromptText = "Press X";
+    [SerializeField] private TMP_Text controllerInteractionPrompt;
+    [SerializeField] private TMP_Text keyboardInteractionPrompt;
+
+    [Header("Control Scheme Names")]
+    [Tooltip("Must exactly match the control scheme name in the Input Actions asset.")]
+    [SerializeField] private string keyboardMouseScheme = "MouseAndKeyboard";
+
+    [Tooltip("Must exactly match the control scheme name in the Input Actions asset.")]
+    [SerializeField] private string controllerScheme = "Controller";
 
     private Interactable nearestInteractable;
 
     private void Awake()
     {
-        if (interactionPrompt != null)
+        if (controllerInteractionPrompt != null)
         {
-            interactionPrompt.text = interactionPromptText;
-            interactionPrompt.gameObject.SetActive(false);
+            controllerInteractionPrompt.gameObject.SetActive(false);
+        }
+        if (keyboardInteractionPrompt != null)
+        {
+            keyboardInteractionPrompt.gameObject.SetActive(false);
         }
     }
 
@@ -68,18 +78,32 @@ public class PlayerInteraction : MonoBehaviour
 
     private void UpdateInteractionPrompt()
     {
-        if (interactionPrompt == null)
-            return;
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+
+        string scheme = playerInput.currentControlScheme;
+
+        bool usingController = (scheme == controllerScheme);
+
+        bool usingKeyboardMouse = (scheme == keyboardMouseScheme);
 
         bool shouldShowPrompt =
             nearestInteractable != null &&
             nearestInteractable.ShowInteractionPrompt;
 
-        interactionPrompt.gameObject.SetActive(shouldShowPrompt);
-
-        if (shouldShowPrompt)
+        if (usingController)
         {
-            interactionPrompt.text = interactionPromptText;
+            controllerInteractionPrompt.gameObject.SetActive(shouldShowPrompt);
+            keyboardInteractionPrompt.gameObject.SetActive(false);
+        }
+        else if (usingKeyboardMouse)
+        {
+            keyboardInteractionPrompt.gameObject.SetActive(shouldShowPrompt);
+            controllerInteractionPrompt.gameObject.SetActive(false);
+        }
+        else
+        {
+            controllerInteractionPrompt.gameObject.SetActive(false);
+            keyboardInteractionPrompt.gameObject.SetActive(false);
         }
     }
     

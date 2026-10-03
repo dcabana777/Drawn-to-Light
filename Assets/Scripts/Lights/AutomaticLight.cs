@@ -78,7 +78,7 @@ public class AutomaticLight : LightState
 
         currentRailDistance += movementDirection * movementSpeed * deltaTime;
 
-        if (rail.AutomaticEndBehavior == LightRail.AutomaticRailEndBehavior.Loop)
+        if (rail.EndBehavior == LightRail.RailEndBehavior.Loop)
         {
             // preserve overshoot so movement remains smooth
             if (currentRailDistance > rail.Length)
@@ -125,20 +125,29 @@ public class AutomaticLight : LightState
     public override void SaveState()
     {
         base.SaveState();
-        savedRailDistance = currentRailDistance;
         savedMoveDirection = movementDirection;
         savedRotateDirection = rotationDirection;
         savedRotation = currentRotation;
+
+        if (rail != null)
+        {
+            savedRailDistance = currentRailDistance;
+        }
     }
 
     public override void RestoreState()
     {
         base.RestoreState();
-        currentRailDistance = savedRailDistance;
         movementDirection = savedMoveDirection;
         currentRotation = savedRotation;
         rotationDirection = savedRotateDirection;
-        transform.position = rail.GetPointAtDistance(currentRailDistance);
+
+        if (rail != null)
+        {
+            currentRailDistance = savedRailDistance;
+            transform.position = rail.GetPointAtDistance(currentRailDistance);
+        }
+
         transform.localRotation = Quaternion.Euler(0f, 0f, currentRotation);
     }
     

@@ -1,67 +1,129 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Camera))]
 public class DarkFogController : MonoBehaviour
 {
-    [Header("Fog Overlay")]
+    [Header("References")]
+    [SerializeField] private Camera fogMaskCamera;
+
+    [SerializeField] private SpriteRenderer fogMaskSurface;
+
     [SerializeField] private SpriteRenderer fogOverlay;
+
     [SerializeField] private Material fogMaterial;
 
-    [SerializeField]
-    private Color fogColor =
-        new Color(0f, 0f, 0f, 0.95f);
+    [Header("Fog")]
+    [SerializeField] private Color fogColor = new Color(0f, 0f, 0f, 0.97f);
 
-    [Header("Reveal Mask")]
-    [SerializeField] private LayerMask fogRevealLayer;
+    [SerializeField, Min(0f)] private float revealMultiplier = 1f;
 
-    [SerializeField, Min(64)]
-    private int maskWidth = 640;
+    [SerializeField, Min(0.01f)] private float revealPower = 1f;
 
-    [SerializeField, Min(64)]
-    private int maskHeight = 360;
+    [Header("Fog Light Sources")]
+    [Tooltip("Normal GameObject layers containing Light2D components " +
+        "that should affect the fog mask.")]
+    [SerializeField] private LayerMask fogLightSourceLayers;
 
-    [Header("Overlay Position")]
-    [SerializeField]
-    private float overlayDistanceFromCamera = 1f;
+    [Header("Mask Texture")]
+    [SerializeField, Min(64)] private int maskHeight = 360;
+
+    [Header("Object Placement")]
+    [Tooltip("Distance in front of the camera where the " +
+        "hidden mask sprite is placed.")]
+    [SerializeField] private float maskSurfaceDistance = 10f;
+
+    [Tooltip("Distance in front of the camera where the " +
+        "visible fog overlay is placed.")]
+    [SerializeField] private float fogOverlayDistance = 1f;
+    [SerializeField, Min(1f)] private float overscan = 1f;
 
     private Camera mainCamera;
-    private Camera maskCamera;
 
     private RenderTexture revealTexture;
     private Material runtimeFogMaterial;
 
-    private FixedAspectCamera fixedAspectCamera;
+    private int previousScreenWidth;
+    private int previousScreenHeight;
+
+    private int fogRevealLayer;
 
     private void Awake()
     {
         mainCamera = GetComponent<Camera>();
 
-        fixedAspectCamera =
-            GetComponent<FixedAspectCamera>();
+        fogRevealLayer =
+            LayerMask.NameToLayer("FogReveal");
+
+        if (fogRevealLayer == -1)
+        {
+            Debug.LogError(
+                "DarkFogController requires a normal " +
+                "Unity Layer named FogReveal."
+            );
+
+            enabled = false;
+            return;
+        }
+
+        if (fogMaskCamera == null ||
+            fogMaskSurface == null ||
+            fogOverlay == null ||
+            fogMaterial == null)
+        {
+            Debug.LogError(
+                "DarkFogController is missing one " +
+                "or more references."
+            );
+
+            enabled = false;
+            return;
+        }
 
         CreateRevealTexture();
-        CreateMaskCamera();
-        SetupFogOverlay();
+        ConfigureMaskCamera();
+        ConfigureMaskSurface();
+        ConfigureFogOverlay();
     }
 
     private void LateUpdate()
     {
-        SyncMaskCamera();
-        ResizeFogOverlay();
+        if (Screen.width != previousScreenWidth ||
+            Screen.height != previousScreenHeight)
+        {
+            CreateRevealTexture();
+        }
+
+        SyncCameraSettings();
+        ResizeSurfaces();
     }
 
     private void CreateRevealTexture()
     {
+        if (revealTexture != null)
+        {
+            fogMaskCamera.targetTexture = null;
+
+            revealTexture.Release();
+            Destroy(revealTexture);
+        }
+
+        int height = maskHeight;
+
+        int width = Mathf.RoundToInt(
+            height * mainCamera.aspect
+        );
+
         revealTexture =
             new RenderTexture(
-                maskWidth,
-                maskHeight,
-                0,
-                RenderTextureFormat.ARGB32
+                width,
+                height,
+                24,
+                RenderTextureFormat.ARGBHalf
             );
 
         revealTexture.name =
-            "Fog Reveal Mask";
+            "Fog Reveal Texture";
 
         revealTexture.filterMode =
             FilterMode.Bilinear;
@@ -70,61 +132,97 @@ public class DarkFogController : MonoBehaviour
             TextureWrapMode.Clamp;
 
         revealTexture.Create();
+
+        fogMaskCamera.targetTexture =
+            revealTexture;
+
+        if (runtimeFogMaterial != null)
+        {
+            runtimeFogMaterial.SetTexture(
+                "_RevealMask",
+                revealTexture
+            );
+        }
+
+        previousScreenWidth =
+            Screen.width;
+
+        previousScreenHeight =
+            Screen.height;
     }
 
-    private void CreateMaskCamera()
+    private void ConfigureMaskCamera()
     {
-        GameObject maskCameraObject =
-            new GameObject("Fog Mask Camera");
-
-        maskCameraObject.transform.SetParent(
+        fogMaskCamera.transform.SetParent(
             transform,
             false
         );
 
-        maskCamera =
-            maskCameraObject.AddComponent<Camera>();
+        fogMaskCamera.transform.localPosition =
+            Vector3.zero;
 
-        maskCamera.orthographic = true;
+        fogMaskCamera.transform.localRotation =
+            Quaternion.identity;
 
-        maskCamera.clearFlags =
+        fogMaskCamera.orthographic = true;
+
+        fogMaskCamera.clearFlags =
             CameraClearFlags.SolidColor;
 
-        maskCamera.backgroundColor =
+        fogMaskCamera.backgroundColor =
             Color.black;
 
-        maskCamera.cullingMask =
-            fogRevealLayer;
+        UniversalAdditionalCameraData cameraData = fogMaskCamera.GetUniversalAdditionalCameraData();
 
-        maskCamera.targetTexture =
+        cameraData.renderType = CameraRenderType.Base;
+
+        int fogRevealMask =
+            1 << fogRevealLayer;
+
+        // Render:
+        // 1. the hidden FogReveal surface
+        // 2. the layers containing the actual Light2Ds
+        fogMaskCamera.cullingMask =
+            fogRevealMask |
+            fogLightSourceLayers.value;
+
+        fogMaskCamera.targetTexture =
             revealTexture;
 
-        maskCamera.allowHDR = false;
-        maskCamera.allowMSAA = false;
+        fogMaskCamera.allowHDR = true;
+        fogMaskCamera.allowMSAA = false;
 
-        // Render the mask before the gameplay camera.
-        maskCamera.depth =
+        fogMaskCamera.depth =
             mainCamera.depth - 10f;
 
-        // The gameplay camera should never render
-        // FogReveal objects themselves.
+        // Main camera must NOT draw the hidden mask surface.
         mainCamera.cullingMask &=
-            ~fogRevealLayer.value;
+            ~fogRevealMask;
     }
 
-    private void SetupFogOverlay()
+    private void ConfigureMaskSurface()
     {
-        if (fogOverlay == null ||
-            fogMaterial == null)
-        {
-            Debug.LogError(
-                "DarkFogController is missing its " +
-                "Fog Overlay or Fog Material."
+        fogMaskSurface.gameObject.layer =
+            fogRevealLayer;
+
+        fogMaskSurface.sortingLayerName =
+            "FogReveal";
+
+        fogMaskSurface.transform.SetParent(
+            transform,
+            false
+        );
+
+        fogMaskSurface.transform.localPosition =
+            new Vector3(
+                0f,
+                0f,
+                maskSurfaceDistance
             );
+    }
 
-            return;
-        }
-
+    private void ConfigureFogOverlay()
+    {
         runtimeFogMaterial =
             new Material(fogMaterial);
 
@@ -136,6 +234,16 @@ public class DarkFogController : MonoBehaviour
         runtimeFogMaterial.SetColor(
             "_FogColor",
             fogColor
+        );
+
+        runtimeFogMaterial.SetFloat(
+            "_RevealMultiplier",
+            revealMultiplier
+        );
+
+        runtimeFogMaterial.SetFloat(
+            "_RevealPower",
+            revealPower
         );
 
         fogOverlay.material =
@@ -150,40 +258,52 @@ public class DarkFogController : MonoBehaviour
             new Vector3(
                 0f,
                 0f,
-                overlayDistanceFromCamera
+                fogOverlayDistance
             );
     }
 
-    private void SyncMaskCamera()
+    private void SyncCameraSettings()
     {
-        if (maskCamera == null)
-            return;
-
-        maskCamera.orthographicSize =
+        fogMaskCamera.orthographic =
+            mainCamera.orthographic;
+        
+        fogMaskCamera.orthographicSize =
             mainCamera.orthographicSize;
 
-        maskCamera.aspect =
-            GetGameplayAspect();
+        fogMaskCamera.aspect =
+            mainCamera.aspect;
+
+        fogMaskCamera.rect = new Rect(0f, 0f, 1f, 1f);
     }
 
-    private void ResizeFogOverlay()
+    private void ResizeSurfaces()
+    {        
+        float halfHeight = mainCamera.orthographicSize;
+
+        float fullHeight = halfHeight * 2f;
+
+        float fullWidth = fullHeight * mainCamera.aspect;
+
+        ResizeSprite(fogMaskSurface, fullWidth, fullHeight);
+
+        ResizeSprite(fogOverlay, fullWidth * overscan, fullHeight * overscan);
+    }
+
+    private void ResizeSprite(
+        SpriteRenderer renderer,
+        float width,
+        float height)
     {
-        if (fogOverlay == null ||
-            fogOverlay.sprite == null)
+        if (renderer == null ||
+            renderer.sprite == null)
         {
             return;
         }
 
-        float height =
-            mainCamera.orthographicSize * 2f;
-
-        float width =
-            height * GetGameplayAspect();
-
         Vector2 spriteSize =
-            fogOverlay.sprite.bounds.size;
+            renderer.sprite.bounds.size;
 
-        fogOverlay.transform.localScale =
+        renderer.transform.localScale =
             new Vector3(
                 width / spriteSize.x,
                 height / spriteSize.y,
@@ -191,21 +311,12 @@ public class DarkFogController : MonoBehaviour
             );
     }
 
-    private float GetGameplayAspect()
-    {
-        if (fixedAspectCamera != null)
-        {
-            return fixedAspectCamera.TargetAspect;
-        }
-
-        return (float)maskWidth / maskHeight;
-    }
-
     private void OnDestroy()
     {
         if (revealTexture != null)
         {
             revealTexture.Release();
+            Destroy(revealTexture);
         }
 
         if (runtimeFogMaterial != null)
