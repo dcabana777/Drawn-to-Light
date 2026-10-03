@@ -124,13 +124,9 @@ public class GameRoom : MonoBehaviour
             halfHeight =
                 camera.orthographicSize;
 
-            FixedAspectCamera fixedAspect = camera.GetComponent<FixedAspectCamera>();
-
-            float aspectRatio = fixedAspect != null ? fixedAspect.TargetAspect : previewAspectRatio;
-
             halfWidth =
                 camera.orthographicSize *
-                aspectRatio;
+                previewAspectRatio;
         }
         else
         {
