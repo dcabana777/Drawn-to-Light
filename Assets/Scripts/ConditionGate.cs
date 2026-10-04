@@ -27,6 +27,11 @@ public class ConditionGate : MonoBehaviour, IRoomResettable
     private bool hasTriggered;
     private bool savedHasTriggered;
 
+    public bool CurrentResult { get; private set; }
+    public bool HasTriggered => hasTriggered;
+    public bool TriggerOnce => triggerOnlyOnce;
+    public ConditionGateType GateType => gateType; 
+
     private void OnEnable()
     {
         foreach (GameCondition condition in requiredConditions)
@@ -93,6 +98,8 @@ public class ConditionGate : MonoBehaviour, IRoomResettable
                 }
             }
         }
+
+        CurrentResult = shouldBeMet;
     }
     
     
@@ -148,5 +155,6 @@ public class ConditionGate : MonoBehaviour, IRoomResettable
     public void RestoreState()
     {
         hasTriggered = savedHasTriggered;
+        EvaluateConditions();
     }
 }

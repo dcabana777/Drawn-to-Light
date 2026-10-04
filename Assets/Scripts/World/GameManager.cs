@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,6 +6,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameRoom initialRoom;
     [SerializeField] private GameObject player;
+
+
+    private IRoomResettable[] globalResettables;
+    private bool hasSavedGlobal;
 
     public GameRoom CurrentRoom { get; private set; }
     public bool IsCameraTransitioning { get; private set; }
@@ -32,6 +37,10 @@ public class GameManager : MonoBehaviour
                 "Could not find a camera tagged MainCamera!"
             );
         }
+
+        globalResettables = GetComponentsInChildren<IRoomResettable>();
+
+        hasSavedGlobal = false;
     }
 
     private void Start()
@@ -167,6 +176,16 @@ public class GameManager : MonoBehaviour
         IsRoomTransitioning = transitioning;
     }
 
+    public void SaveGlobalConditions()
+    {
+        foreach (IRoomResettable resettable in globalResettables)
+        {
+            resettable.SaveState();
+        }
+
+        hasSavedGlobal = true;
+    }
+    
     public void RestoreCheckPoint()
     {
         if (CurrentMajorCheckpoint == null)
@@ -185,6 +204,15 @@ public class GameManager : MonoBehaviour
         foreach (IRoomResettable resettable in resettables)
         {
             resettable.RestoreState();
+        }
+
+        // restore saved global conditions
+        if (hasSavedGlobal)
+        {
+            foreach (IRoomResettable resettable in globalResettables)
+            {
+                resettable.RestoreState();
+            }
         }
         
         // update current room and checkpoint, then respawn player at it

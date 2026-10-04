@@ -16,6 +16,10 @@ public class Interactable : MonoBehaviour, IRoomResettable
     private int currentUseCount;
     private bool isInteracting;
 
+    public int CurrentUseCount => currentUseCount;
+    public int MaxUses => maxUses;
+    public bool LimitUses => limitUses;
+
     private int savedUseCount;
 
     protected virtual void Awake()
@@ -82,5 +86,8 @@ public class Interactable : MonoBehaviour, IRoomResettable
     public virtual void RestoreState()
     {
         currentUseCount = savedUseCount;
+
+        if (currentUseCount < maxUses)
+            showInteractionPrompt = true;
     }
 }

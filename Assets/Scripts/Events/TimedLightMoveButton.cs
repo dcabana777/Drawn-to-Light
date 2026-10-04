@@ -66,4 +66,11 @@ public class TimedLightMoveButton : Interactable
 
         movementCoroutine = null;
     }
+
+    public override void RestoreState()
+    {
+        StopAllCoroutines();
+        movementCoroutine = null;
+        base.RestoreState();
+    }
 }

@@ -32,6 +32,8 @@ public class RoomTransition : MonoBehaviour
     [Header("Transfer Movement")]
     [SerializeField] private float playerEntrySpeed = 3f;
 
+    private PlayerInput playerInput;
+
     private void Awake()
     {
         gm = FindAnyObjectByType<GameManager>();
@@ -51,7 +53,12 @@ public class RoomTransition : MonoBehaviour
             return;
         }
 
+        playerInput = other.GetComponent<PlayerInput>();
+
         if (gm.IsRoomTransitioning) return;
+
+        // prevent player from pausing
+        playerInput.actions.FindActionMap("System").FindAction("Pause").Disable();
 
         if (transitionType == RoomTransitionType.Pan)
         {
@@ -82,6 +89,11 @@ public class RoomTransition : MonoBehaviour
         yield return gm.MoveMainCameraToPosition(cameraTarget, transitionDuration);
 
         gm.SetRoomTransitioning(false);
+
+        playerInput.ActivateInput();
+
+        // restore pause button after
+        playerInput.actions.FindActionMap("System").FindAction("Pause").Enable();
     }
     
     
@@ -158,5 +170,8 @@ public class RoomTransition : MonoBehaviour
         }
 
         gm.SetRoomTransitioning(false);
+
+        // restore pause button after
+        playerInput.actions.FindActionMap("System").FindAction("Pause").Enable();
     }
 }

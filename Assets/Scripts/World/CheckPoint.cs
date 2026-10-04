@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
@@ -24,11 +26,20 @@ public class CheckPoint : MonoBehaviour
     public CheckPointType Type => checkPointType;
     public int CheckPointPriority => checkpointPriority;
 
+    private GameManager gm;
+
     private void Awake()
     {
         PlayerRespawnLocation = transform.position;
 
+        gm = FindAnyObjectByType<GameManager>();
+        if (gm == null)
+        {
+            Debug.LogError("CheckPoint: " + CheckPointName + " could not find GameManager!");
+        }
+
         ThingsToReset = checkpointOwnerRoom.GetComponentsInChildren<IRoomResettable>(true);
+
         HasSaved = false;
     }
 
@@ -46,10 +57,15 @@ public class CheckPoint : MonoBehaviour
 
     public void SaveRoom()
     {
+        int i = 1;
         foreach (IRoomResettable thing in ThingsToReset)
         {
             thing.SaveState();
+            Debug.Log("Saving " + thing + " " + i + "\n");
+            i++;
         }
+
+        gm.SaveGlobalConditions();
 
         HasSaved = true;
     }
