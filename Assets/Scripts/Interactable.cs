@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 public class Interactable : MonoBehaviour, IRoomResettable
 {
@@ -16,6 +17,13 @@ public class Interactable : MonoBehaviour, IRoomResettable
     private int currentUseCount;
     private bool isInteracting;
 
+    [Header("Indicator Light Settings")]
+    [SerializeField] private Light2D indicatorLight;
+    [SerializeField] private bool initialIndicatorStatus = true;
+    [SerializeField] private bool useCustomColor = false;
+    private bool indicatorLightActive;
+    private bool savedIndicatorLightActive;
+
     public int CurrentUseCount => currentUseCount;
     public int MaxUses => maxUses;
     public bool LimitUses => limitUses;
@@ -25,6 +33,29 @@ public class Interactable : MonoBehaviour, IRoomResettable
     protected virtual void Awake()
     {
         currentUseCount = 0;
+
+        if (indicatorLight == null)
+            indicatorLight = GetComponent<Light2D>();
+
+        indicatorLightActive = initialIndicatorStatus;
+
+        if (indicatorLight == null)
+            return;
+
+        if (useCustomColor)
+        {
+            return;
+        }
+        else
+        {
+            Color color = GetComponent<SpriteRenderer>().color;
+
+            if (color == null)
+                color = Color.white;
+
+            indicatorLight.color = color;
+        }
+
     }
     
     public void Interact()
@@ -70,6 +101,12 @@ public class Interactable : MonoBehaviour, IRoomResettable
     protected virtual void OnUseLimitReached()
     {
         showInteractionPrompt = false;
+
+        if (indicatorLight != null)
+        {
+            indicatorLightActive = false;
+            UpdateIndicatorLight();
+        }
     }
     
     // Default trigger OnInteract() always returns true, do not call base.OnTrigger() in override functions
@@ -78,9 +115,21 @@ public class Interactable : MonoBehaviour, IRoomResettable
         return true;
     }
 
+    private void UpdateIndicatorLight()
+    {
+        if (indicatorLight == null)
+            return;
+
+        indicatorLight.enabled = indicatorLightActive;
+    }
+
     public virtual void SaveState()
     {
         savedUseCount = currentUseCount;
+        if (indicatorLight != null)
+        {
+            savedIndicatorLightActive = indicatorLightActive;
+        }
     }
 
     public virtual void RestoreState()
@@ -89,5 +138,11 @@ public class Interactable : MonoBehaviour, IRoomResettable
 
         if (currentUseCount < maxUses)
             showInteractionPrompt = true;
+
+        if (indicatorLight != null)
+        {
+            indicatorLightActive = savedIndicatorLightActive;
+            UpdateIndicatorLight();
+        }
     }
 }
