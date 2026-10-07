@@ -9,15 +9,17 @@ public class PauseMenuController : MonoBehaviour
 {
     [Header("Menu Panels")]
     [SerializeField] private GameObject pauseMenuPanel;
-    [SerializeField] private GameObject optionsPanel;
+    [SerializeField] private GameObject optionsMenuPanel;
     [SerializeField] private GameObject checkpointConfirmationPanel;
     [SerializeField] private GameObject exitConfirmationPanel;
+    [SerializeField] private GameObject changeDisplayConfirmationPanel;
 
     [Header("Selection Controllers")]
     [SerializeField] private MenuSelectionController pauseMenuSelection;
     [SerializeField] private MenuSelectionController optionsMenuSelection;
     [SerializeField] private MenuSelectionController restoreConfirmationSelection;
     [SerializeField] private MenuSelectionController exitConfirmationSelection;
+    [SerializeField] private MenuSelectionController changeDisplayConfirmationSelection;
 
     //[Header("Return Selection")]
     //[SerializeField] private Button restoreCheckPointButton;
@@ -36,6 +38,9 @@ public class PauseMenuController : MonoBehaviour
     private bool isInOptions = false;
     private bool isInRestoreConfirmation = false;
     private bool isInExitConfirmation = false;
+    private bool isInChangeDisplayConfirmation = false;
+    private int currentDisplayOption;
+    private int selectedDisplayOption;
 
     private InputActionMap gameplayMap;
     private InputActionMap systemMap;
@@ -53,6 +58,13 @@ public class PauseMenuController : MonoBehaviour
         pauseAction = systemMap.FindAction(pauseActionName, true);
 
         gm = FindAnyObjectByType<GameManager>();
+
+        if (Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
+            currentDisplayOption = 0;
+        else
+            currentDisplayOption = 1;
+
+        selectedDisplayOption = currentDisplayOption;
         
         systemMap.Enable();
     }
@@ -165,15 +177,75 @@ public class PauseMenuController : MonoBehaviour
 
         isInRestoreConfirmation = false;
     }
-    
+
     public void OpenOptions()
     {
-        // placeholder until options complete
+        if (isInOptions)
+            return;
+
+        optionsMenuPanel.SetActive(true);
+
+        optionsMenuSelection.SelectDefault();
+
+        isInOptions = true;
+
+        pauseMenuPanel.SetActive(false);
     }
 
     public void CloseOptions()
     {
-        // placeholder until options complete
+        if (!isInOptions)
+            return;
+
+        pauseMenuPanel.SetActive(true);
+
+        pauseMenuSelection.SelectDefault();
+
+        isInOptions = false;
+
+        optionsMenuPanel.SetActive(false);
+    }
+
+    public void ChangeDisplay(int val)
+    {
+        if (isInChangeDisplayConfirmation)
+            return;
+
+        selectedDisplayOption = val;
+
+        changeDisplayConfirmationPanel.SetActive(true);
+
+        changeDisplayConfirmationSelection.SelectDefault();
+
+        isInChangeDisplayConfirmation = true;
+
+        optionsMenuPanel.SetActive(false);
+    }
+
+    public void ConfirmChangeDisplay()
+    {
+        if (!isInChangeDisplayConfirmation)
+            return;
+
+        DropdownHandler handler = optionsMenuPanel.GetComponentInChildren<DropdownHandler>();
+
+        handler.HandleInput(selectedDisplayOption);
+
+        StopDisplayChange();
+    }
+
+    public void StopDisplayChange()
+    {
+        if (!isInChangeDisplayConfirmation)
+            return;
+
+        optionsMenuPanel.SetActive(true);
+
+        optionsMenuSelection.SelectDefault();
+
+        isInChangeDisplayConfirmation = false;
+
+        changeDisplayConfirmationPanel.SetActive(false);
     }
 
     public void ExitGame()

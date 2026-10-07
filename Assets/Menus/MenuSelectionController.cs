@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,13 +8,13 @@ using UnityEngine.UI;
 public class MenuSelectionController : MonoBehaviour
 {
     [Header("Buttons")]
-    [SerializeField] private Button defaultButton;
-    [SerializeField] private List<Button> menuButtons;
+    [SerializeField] private Selectable defaultSelectable;
+    [SerializeField] private List<Selectable> menuSelectables;
 
     [Header("Selection")]
     [SerializeField] private bool keepSelectionWhenLost = true;
 
-    public Button CurrentButton { get; private set; }
+    public Selectable CurrentSelectable { get; private set; }
 
     private void OnEnable()
     {
@@ -25,10 +26,7 @@ public class MenuSelectionController : MonoBehaviour
     {
         yield return null;
 
-        if (defaultButton != null)
-        {
-            SelectButton(defaultButton);
-        }
+        SelectDefault();
     }
 
     private void Update()
@@ -40,48 +38,78 @@ public class MenuSelectionController : MonoBehaviour
 
         if (selectedObject != null)
         {
-            Button selectedButton = selectedObject.GetComponent<Button>();
+            Selectable selectedSelectable = selectedObject.GetComponent<Button>();
 
-            if (selectedButton != null && menuButtons.Contains(selectedButton))
+            if (selectedSelectable != null && menuSelectables.Contains(selectedSelectable))
             {
-                CurrentButton = selectedButton;
-                
+                CurrentSelectable = selectedSelectable;
+
                 return;
             }
+
+            if (CurrentSelectable is TMP_Dropdown dropdown && dropdown.IsExpanded)
+            {
+                return;
+            }
+
+            return;
         }
 
-        if (keepSelectionWhenLost && CurrentButton != null)
+        if (!keepSelectionWhenLost)
+            return;
+
+        if (CurrentSelectable is TMP_Dropdown currentDropdown && currentDropdown.IsExpanded)
+            return;
+
+        if (IsSelectableValid(CurrentSelectable))
         {
-            CurrentButton.Select();
+            SelectSelectable(CurrentSelectable);
         }
     }
 
-    public void SelectButton(Button button)
+    public void SelectSelectable(Selectable selectable)
     {
-        if (button == null)
+        if (!IsSelectableValid(selectable))
+        {
             return;
+        }
 
-        if (!button.gameObject.activeInHierarchy || !button.interactable)
-            return;
+        CurrentSelectable = selectable;
 
-        CurrentButton = button;
-
-        button.Select();
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+        }
     }
 
     public void SelectDefault()
     {
-        SelectButton(defaultButton);
+        SelectSelectable(defaultSelectable);
     }
 
-    private void ActivateCurrentButton()
+    private void ActivateCurrentSelectable()
     {
-        if (CurrentButton == null)
+        if (EventSystem.current == null) 
             return;
 
-        if (!CurrentButton.gameObject.activeInHierarchy || !CurrentButton.interactable)
-            return;
+        GameObject selectedObject = EventSystem.current.currentSelectedGameObject;
 
-        CurrentButton.onClick.Invoke();
+        if (selectedObject == null && CurrentSelectable != null)
+        {
+            selectedObject = CurrentSelectable.gameObject;
+        }
+
+        if (selectedObject == null)
+        {
+            return;
+        }
+
+        BaseEventData eventData = new BaseEventData(EventSystem.current);
+
+        ExecuteEvents.Execute(selectedObject, eventData, ExecuteEvents.submitHandler);
+    }
+
+    private bool IsSelectableValid(Selectable selectable) {
+        return selectable != null && selectable.gameObject.activeInHierarchy && selectable.IsInteractable();
     }
 }

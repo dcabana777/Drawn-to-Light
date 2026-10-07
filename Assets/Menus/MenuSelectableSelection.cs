@@ -2,15 +2,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class MenuButtonSelection : MonoBehaviour, IPointerEnterHandler, ISelectHandler
+[RequireComponent(typeof(Selectable))]
+public class MenuSelectableSelection : MonoBehaviour, IPointerEnterHandler, ISelectHandler
 {
-    private Button button;
+    
+    private Selectable selectable;
     private MenuSelectionController menuController;
 
     private void Awake()
     {
-        button = GetComponent<Button>();
+        selectable = GetComponent<Selectable>();
 
         menuController = GetComponentInParent<MenuSelectionController>();
     }
@@ -18,12 +19,12 @@ public class MenuButtonSelection : MonoBehaviour, IPointerEnterHandler, ISelectH
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (menuController != null)
-            menuController.SelectButton(button);
+            menuController.SelectSelectable(selectable);
     }
 
     public void OnSelect(BaseEventData eventData)
     {
         if (menuController != null)
-            menuController.SelectButton(button);
+            menuController.SelectSelectable(selectable);
     }
 }

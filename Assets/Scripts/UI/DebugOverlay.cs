@@ -10,7 +10,7 @@ public class DebugOverlay : MonoBehaviour
     [Header("Display")]
     [SerializeField] private bool startsVisible = false;
     [SerializeField] private bool showInteractableLabels = true;
-
+    
     [Header("Interactable Labels")]
     [SerializeField] private Vector3 interactableLabelOffset = new Vector3(0f, 1f, 0f);
     [SerializeField] private float interactableLabelWidth = 180f;
@@ -30,6 +30,8 @@ public class DebugOverlay : MonoBehaviour
     private Interactable[] interactables;
 
     private float nextRefreshTime;
+
+    private Vector2 overlayScrollPosition;
 
     private GUIStyle headerStyle;
     private GUIStyle normalStyle;
@@ -121,12 +123,14 @@ public class DebugOverlay : MonoBehaviour
 
     private void DrawMainOverlay()
     {
-        const float width = 420f;
+        const float width = 440f;
         const float margin = 10f;
 
-        float height = CalculateOverlayHeight();
+        float height = Screen.height - margin * 2f;
 
         GUILayout.BeginArea(new Rect(margin, margin, width, height), GUI.skin.box);
+
+        overlayScrollPosition = GUILayout.BeginScrollView(overlayScrollPosition, false, true);
 
         GUILayout.Label("DEBUG OVERLAY", headerStyle);
 
@@ -143,6 +147,8 @@ public class DebugOverlay : MonoBehaviour
         GUILayout.Space(10f);
 
         DrawConditionGates();
+
+        GUILayout.EndScrollView();
 
         GUILayout.EndArea();
     }
@@ -272,20 +278,6 @@ public class DebugOverlay : MonoBehaviour
             else
                 GUI.Label(rect, $"{interactable.gameObject.name} | Uses: Unlimited", worldLabelStyle);
         }
-    }
-
-    private float CalculateOverlayHeight()
-    {
-        int conditionCount = conditions?.Length ?? 0;
-
-        int gateCount = gates?.Length ?? 0;
-
-        // Each gate currently uses two text lines.
-        float calculatedHeight = 170f + conditionCount * 22f + gateCount * 44f;
-
-        // Prevent the panel from taking over the
-        // entire screen in an unusually large room.
-        return Mathf.Min(calculatedHeight, Screen.height - 20f);
     }
 
     private void CreateStylesIfNeeded()
