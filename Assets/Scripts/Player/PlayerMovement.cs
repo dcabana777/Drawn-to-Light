@@ -34,12 +34,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check Settings")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Vector2 checkBox = new Vector2(0.2f, 0.2f);
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask darkGroundLayers;
+    [SerializeField] private LayerMask lightGroundLayers;
 
     private bool holdJumpAvailable;
     private bool jumpInProgress;
     private bool hasStartedRising;
     private float jumpHoldTimer;
+
+    private int currentPlayerLayer => gameObject.layer;
+    private LayerMask groundLayer;
 
     private float normalGravityScale;
 
@@ -53,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
 
         normalGravityScale = rb.gravityScale;
         facingRootOriginalPosition = facingRoot.localPosition;
+
+        UpdateGroundLayers();
     }
 
     public void OnMove(InputValue value)
@@ -108,6 +114,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        UpdateGroundLayers();
+        
         bool grounded = Physics2D.OverlapBox(
             groundCheck.position,
             checkBox,
@@ -186,5 +194,15 @@ public class PlayerMovement : MonoBehaviour
             holdJumpAvailable = false;
             rb.gravityScale = normalGravityScale;
         }
+    }
+
+    public void UpdateGroundLayers()
+    {
+        if (currentPlayerLayer == 9)
+            groundLayer = darkGroundLayers;
+        else if (currentPlayerLayer == 10)
+            groundLayer = lightGroundLayers;
+        else
+            groundLayer = darkGroundLayers;
     }
 }

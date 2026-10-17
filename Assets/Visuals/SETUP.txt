@@ -1,0 +1,96 @@
+DRAWN TO LIGHT - COMBINED WORLD COMPOSITE + DARK FOG
+
+FILES
+- WorldCompositeFog.shader: replaces the TwoWorlds seam composite shader AND the Drawn to Light DarkFogOverlay shader.
+- WorldCompositeRig.cs: replaces WorldCompositeSeamRig and DarkFogController.
+- WorldStateManager.cs: unchanged.
+- WorldStateLayerSwitcher.cs: unchanged.
+- WorldStateLight2D.cs: same behavior; removed unused UnityEditor.Rendering import so it is safe as a runtime script.
+
+VISUAL MODEL
+1. Dark camera renders permanent geometry only (plus any shared visual layers such as the player).
+2. Light camera renders permanent geometry + light-dependent geometry (plus shared visuals).
+3. Existence mask camera renders a white Sprite-Lit mask surface that ONLY existence lights target.
+4. Fog mask camera renders a second white Sprite-Lit mask surface that EVERY fog-clearing light targets.
+5. Composite shader blends Dark -> Light using the existence mask, then applies dark fog using the fog mask.
+
+NO SEAM EFFECTS
+The shader contains no seam distortion, instability, noise, pulse, or special transition band. The world transition is only a smoothstep between Dark Threshold and Light Threshold.
+
+MASK SURFACES
+Create/keep two white square SpriteRenderers using Sprite-Lit-Default:
+- ExistenceMaskSurface
+  - put on a hidden normal GameObject layer of your choice
+  - put on a sorting layer such as ExistenceReveal
+- FogMaskSurface
+  - put on hidden normal GameObject layer FogReveal (or another dedicated layer)
+  - put on sorting layer FogReveal
+
+Assign both SpriteRenderers to WorldCompositeRig. The rig follows/resizes them automatically.
+Do not include these hidden GameObject layers in the normal Dark/Light render-camera masks.
+
+LIGHT TARGET SORTING LAYERS
+Existence Light2D:
+- target ExistenceReveal
+- target FogReveal
+- attach WorldStateLight2D
+- may also target normal visible sorting layers if the visible world itself should receive that Light2D
+
+Ordinary/non-existence Light2D:
+- target FogReveal
+- DO NOT target ExistenceReveal
+- DO NOT attach WorldStateLight2D
+- may also target normal visible sorting layers as needed
+
+CAMERA CULLING MASKS ON WorldCompositeRig
+Dark Render Layers:
+- permanent/DarkWorld-equivalent visuals
+- SharedVisual/player visuals as required
+
+Light Render Layers:
+- everything in Dark Render Layers
+- light-dependent/LightWorld-equivalent visuals
+
+Existence Mask Render Layers:
+- the normal GameObject layer containing ExistenceMaskSurface
+- the GameObject layers containing Light2D objects that need to be considered by the 2D renderer
+
+Fog Mask Render Layers:
+- the normal GameObject layer containing FogMaskSurface
+- the GameObject layers containing all fog-clearing Light2D objects
+
+All four source cameras should use the same URP 2D Renderer configuration.
+Remove AudioListeners from source/mask cameras.
+
+DISPLAY CAMERA / FIXED ASPECT
+Put WorldCompositeRig on the display/Main Camera that your existing camera movement and FixedAspectCamera control.
+The four source cameras follow that display camera automatically.
+The RenderTextures are sized from the display camera viewport, so pillarboxing/letterboxing remains compatible.
+
+The composite RawImage should render inside the gameplay/display camera viewport. A Screen Space - Camera Canvas using the display camera is the simplest setup. The background camera/fog backdrop can continue to fill the unused pillarbox/letterbox region behind it.
+
+PHYSICS / PLAYER WORLD STATE
+WorldStateManager + WorldStateLight2D + WorldStateLayerSwitcher remain the physics authority and are independent of the visual RenderTextures.
+
+Attach WorldStateLight2D ONLY to existence lights. WorldStateManager therefore samples only existence light.
+WorldStateLayerSwitcher switches the configured physics layerTargets between DarkPlayer and LightPlayer.
+Configure the Physics2D layer matrix so:
+- DarkPlayer collides with permanent geometry only.
+- LightPlayer collides with permanent geometry AND light-dependent geometry.
+
+This gives the requested Drawn to Light rule:
+- Dark state = permanent geometry only.
+- Light state = permanent + light-dependent geometry.
+
+MATERIAL
+Create a Material using shader:
+UI/WorldCompositeFog
+Assign it as Composite Material Asset in WorldCompositeRig.
+
+OLD COMPONENTS
+Disable/remove these once the new rig is working:
+- WorldCompositeSeamRig
+- DarkFogController
+- visible DarkFogOverlay SpriteRenderer/material
+The old fog mask surface can be reused as FogMaskSurface.
+The old TwoWorlds existence mask surface can be reused as ExistenceMaskSurface.

@@ -16,23 +16,23 @@ TagManager:
   - Water
   - UI
   - ExistenceLight
-  - LightDetector
-  - Interactable
   - 
-  - Player
+  - Interactable
+  - DarkPlayer
+  - LightPlayer
   - BackgroundObject
   - ManifestationHazard
   - 
   - 
   - FogReveal
+  - ExistenceReveal
   - 
   - 
   - 
+  - PermanentWorld
+  - ExistenceWorld
   - 
-  - 
-  - 
-  - 
-  - 
+  - Background
   - 
   - 
   - 
@@ -48,11 +48,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ExistenceReveal
+    uniqueID: 3353799617
+    locked: 0
   - name: FogReveal
     uniqueID: 3102196411
     locked: 0
-  - name: DarkFog
-    uniqueID: 2454423141
+  - name: UI
+    uniqueID: 3435770937
     locked: 0
   m_RenderingLayers:
   - Default
