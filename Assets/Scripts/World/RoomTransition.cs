@@ -12,7 +12,9 @@ public class RoomTransition : MonoBehaviour
     
     private GameManager gm;
 
+    [Header("References")]
     [SerializeField] private GameRoom newRoom;
+    private PlayerState playerData;
 
     [Header("Transition Settings")]
     [SerializeField] private RoomTransitionType transitionType;
@@ -44,6 +46,8 @@ public class RoomTransition : MonoBehaviour
                 "RoomTransition could not find GameManager!"
             );
         }
+
+        playerData = gm.Player.GetComponent<PlayerState>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -120,6 +124,11 @@ public class RoomTransition : MonoBehaviour
             playerInput.DeactivateInput();
         }
 
+        if (playerData != null)
+        {
+            playerData.SetMovementState(PlayerMovementState.InputLocked);
+        }
+
         // stop player physics
         if (rb != null)
         {
@@ -161,6 +170,14 @@ public class RoomTransition : MonoBehaviour
         {
             rb.bodyType = originalBodyType;
             rb.linearVelocity = Vector2.zero;
+        }
+
+        // update player movement state
+        if (playerData != null)
+        {
+            PlayerMovementController playerMovementController = playerData.gameObject.GetComponent<PlayerMovementController>();
+
+            playerMovementController.PerformGroundChecks();
         }
 
         // restore player input

@@ -3,7 +3,8 @@ using UnityEngine;
 public enum PlayerMovementState
 {
     Grounded,
-    Airborne
+    Airborne,
+    InputLocked
 }
 
 public class PlayerState : MonoBehaviour
@@ -30,5 +31,6 @@ public class PlayerState : MonoBehaviour
     public void SetMovementState(PlayerMovementState newState)
     {
         CurrentMoveState = newState;
+        Debug.Log("New State: " + newState, this);
     }
 }

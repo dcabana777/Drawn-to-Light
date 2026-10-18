@@ -128,11 +128,11 @@ public class PlayerMovementController : MonoBehaviour
             sprintHeld = false;
     }
 
-    private void Update()
+    public void PerformGroundChecks()
     {
         UpdateGroundLayers();
 
-        bool isGrounded = CheckGroundedStatus();
+        bool isGrounded = Physics2D.OverlapBox(groundCheck.position, checkBox, 0f, groundLayer);
 
         // If already grounded and still grounded, do nothing
         if (isGrounded && playerData.CurrentMoveState == PlayerMovementState.Grounded)
@@ -174,18 +174,13 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    private bool CheckGroundedStatus()
-    {
-        return Physics2D.OverlapBox(
-            groundCheck.position,
-            checkBox,
-            0f,
-            groundLayer
-        );
-    }
-
     private void FixedUpdate()
     {
+        if (playerData.CurrentMoveState == PlayerMovementState.InputLocked)
+            return;
+
+        PerformGroundChecks();
+
         // Update timers
         if (coyoteJumpTimer > 0f)
             coyoteJumpTimer -= Time.fixedDeltaTime;
