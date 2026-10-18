@@ -91,13 +91,15 @@ public class PlayerLantern : MonoBehaviour
     private void TryToggleLantern()
     {
         // can only toggle when on solid ground
-        if (!playerData.IsGrounded) return;
+        if (!(playerData.CurrentMoveState == PlayerMovementState.Grounded))
+            return;
         
         // Lantern remembers whether it is in local or global mode even when off,
         // so that mode determines the cooldown
         if (isGlobal)
         {
-            if (!CooldownReady(nextGlobalToggleTime)) return;
+            if (!CooldownReady(nextGlobalToggleTime))
+                return;
 
             if (globalToggleCooldown > 0f)
             {
@@ -128,11 +130,14 @@ public class PlayerLantern : MonoBehaviour
     private void TrySwitchMode()
     {
         // can only toggle when on solid ground
-        if (!playerData.IsGrounded) return;
+        if (!(playerData.CurrentMoveState == PlayerMovementState.Grounded))
+            return;
         
         // Holding only changes mode while the lantern is on
-        if (!isOn) return;
-        if (!CooldownReady(nextModeSwitchTime)) return;
+        if (!isOn)
+            return;
+        if (!CooldownReady(nextModeSwitchTime))
+            return;
 
         if (modeSwitchCooldown > 0f)
         {
@@ -141,8 +146,10 @@ public class PlayerLantern : MonoBehaviour
 
         isGlobal = !isGlobal;
 
-        if (isGlobal) StartGlobalDuration();
-        else StopGlobalDuration();
+        if (isGlobal)
+            StartGlobalDuration();
+        else
+            StopGlobalDuration();
 
         UpdateLighting();
     }
@@ -157,14 +164,16 @@ public class PlayerLantern : MonoBehaviour
         StopGlobalDuration();
 
         // 0 or less means Global mode has no time limit
-        if (globalModeDuration <= 0f) return;
+        if (globalModeDuration <= 0f)
+            return;
 
         globalDurationCoroutine = StartCoroutine(GlobalDurationRoutine());
     }
 
     private void StopGlobalDuration()
     {
-        if (globalDurationCoroutine == null) return;
+        if (globalDurationCoroutine == null)
+            return;
 
         StopCoroutine(globalDurationCoroutine);
         globalDurationCoroutine = null;
@@ -177,7 +186,8 @@ public class PlayerLantern : MonoBehaviour
         globalDurationCoroutine = null;
 
         // make sure state is still valid when timer finishes
-        if (!isOn || !isGlobal) yield break;
+        if (!isOn || !isGlobal)
+            yield break;
 
         isGlobal = false;
 

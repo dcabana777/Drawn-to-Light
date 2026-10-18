@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum PlayerMovementState
+{
+    Grounded,
+    Airborne
+}
+
 public class PlayerState : MonoBehaviour
 {
     public int FacingDirection { get; private set; } = 1;
@@ -7,7 +13,7 @@ public class PlayerState : MonoBehaviour
     public bool FacingRight => FacingDirection == 1;
     public bool FacingLeft => FacingDirection == -1;
 
-    public bool IsGrounded { get; private set; }
+    public PlayerMovementState CurrentMoveState { get; private set; }
 
     public void SetFacingDirection(float direction)
     {
@@ -21,8 +27,8 @@ public class PlayerState : MonoBehaviour
         }
     }
 
-    public void SetGrounded(bool grounded)
+    public void SetMovementState(PlayerMovementState newState)
     {
-        IsGrounded = grounded;
+        CurrentMoveState = newState;
     }
 }

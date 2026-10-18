@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        if (value.isPressed && playerData.IsGrounded)
+        //if (value.isPressed && playerData.IsGrounded)
         {
             rb.AddForce(
                 Vector2.up * jumpPower,
@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
             groundLayer
         );
 
-        playerData.SetGrounded(grounded);
+        //playerData.SetGrounded(grounded);
     }
 
     private void FixedUpdate()
