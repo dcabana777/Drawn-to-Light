@@ -61,7 +61,7 @@ public class CheckPoint : MonoBehaviour
         foreach (IRoomResettable thing in ThingsToReset)
         {
             thing.SaveState();
-            Debug.Log("Saving " + thing + " " + i + "\n");
+            //Debug.Log("Saving " + thing + " " + i + "\n");
             i++;
         }
 
