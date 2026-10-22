@@ -59,7 +59,11 @@ public class RoomTransition : MonoBehaviour
 
         playerInput = other.GetComponent<PlayerInput>();
 
-        if (gm.IsRoomTransitioning) return;
+        if (gm.IsRoomTransitioning)
+            return;
+
+        if (gm.CurrentRoom == newRoom)
+            return;
 
         // prevent player from pausing
         playerInput.actions.FindActionMap("System").FindAction("Pause").Disable();
