@@ -149,7 +149,21 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        // Stop lights from previous room from playing audio
+        LightAudioReporter[] audioReportersOld = CurrentRoom.GetComponentsInChildren<LightAudioReporter>();
+        foreach (LightAudioReporter reporter in audioReportersOld)
+        {
+            reporter.SetReportable(false);
+        }
+
         CurrentRoom = newRoom;
+
+        // Allow lights in new room to play audio
+        LightAudioReporter[] audioReportersNew = CurrentRoom.GetComponentsInChildren<LightAudioReporter>();
+        foreach (LightAudioReporter reporter in audioReportersNew)
+        {
+            reporter.SetReportable(true);
+        }
 
         ChangePlayerLightGroup(CurrentRoom.MainLightGroup);
 

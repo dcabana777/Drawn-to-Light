@@ -6,7 +6,9 @@ public class PlayerInteraction : MonoBehaviour
 {
     [Header("Interaction")]
     [SerializeField] private float interactionRadius = 1.5f;
-    [SerializeField] private LayerMask interactableLayer;
+    [SerializeField] private LayerMask darkInteractableLayers;
+    [SerializeField] private LayerMask lightInteractableLayers;
+    private LayerMask interactableLayers;
 
     [Header("Interaction Prompt")]
     [SerializeField] private TMP_Text controllerInteractionPrompt;
@@ -20,6 +22,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private string controllerScheme = "Controller";
 
     private Interactable nearestInteractable;
+    private int currentPlayerLayer => gameObject.layer;
 
     private void Awake()
     {
@@ -35,6 +38,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
+        UpdateInteractableLayers();
         UpdateNearestInteractable();
         UpdateInteractionPrompt();
     }
@@ -53,7 +57,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void UpdateNearestInteractable()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactionRadius, interactableLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactionRadius, interactableLayers);
 
         nearestInteractable = null;
         float nearestDistanceSquared = float.PositiveInfinity;
@@ -76,6 +80,14 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    private void UpdateInteractableLayers()
+    {
+        if (currentPlayerLayer == 10)
+            interactableLayers = lightInteractableLayers;
+        else
+            interactableLayers = darkInteractableLayers;
+    }
+    
     private void UpdateInteractionPrompt()
     {
         PlayerInput playerInput = GetComponent<PlayerInput>();

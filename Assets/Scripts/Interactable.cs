@@ -5,10 +5,12 @@ using UnityEngine.Rendering.Universal;
 public class Interactable : MonoBehaviour, IRoomResettable
 {
     [Header("Interaction Settings")]
-    [SerializeField] private bool showInteractionPrompt = false;
+    [SerializeField] protected bool showInteractionPrompt = false;
     public bool ShowInteractionPrompt => showInteractionPrompt;
     [SerializeField, Min(0f)] private float interactionCooldown = 0f;
     private float nextInteractionTime;
+    [SerializeField] private AudioClip interactionClip;
+    [SerializeField, Min(0f)] private float interactionClipVolume = 0.5f;
     [SerializeField] private UnityEvent onSuccessfulInteract;
     
     [Header("Limited Use Settings")]
@@ -82,7 +84,15 @@ public class Interactable : MonoBehaviour, IRoomResettable
             isInteracting = false;
         }
 
-        if (succeeded) onSuccessfulInteract?.Invoke();
+        if (succeeded)
+        {
+            onSuccessfulInteract?.Invoke();
+
+            if (GameAudioManager.Instance != null && interactionClip != null) 
+            {
+                GameAudioManager.Instance.PlayOneShot(interactionClip, interactionClipVolume);
+            }
+        }
         else return;
 
         nextInteractionTime = Time.time + interactionCooldown;
@@ -109,7 +119,10 @@ public class Interactable : MonoBehaviour, IRoomResettable
         }
     }
     
-    // Default trigger OnInteract() always returns true, do not call base.OnTrigger() in override functions
+    /// <summary>
+    /// Default trigger OnInteract() always returns true, do not call base.OnTrigger() in override functions
+    /// </summary>
+    /// <returns></returns>
     protected virtual bool OnInteract()
     { 
         return true;
