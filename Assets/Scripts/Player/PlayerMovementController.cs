@@ -59,8 +59,9 @@ public class PlayerMovementController : MonoBehaviour
     private InputAction sprintAction;
     private bool sprintHeld;
     private bool isSprinting;
+    public bool Sprinting => isSprinting;
 
-    private Vector2 velocity => rb.linearVelocity;
+    public Vector2 Velocity => rb.linearVelocity;
     private float footstepAudioTimer = 0f;
 
     private int currentPlayerLayer => gameObject.layer;
@@ -96,6 +97,8 @@ public class PlayerMovementController : MonoBehaviour
                 facingRoot.localPosition.y,
                 facingRoot.localPosition.z
             );
+
+            facingRoot.localScale = new Vector3(1f, facingRoot.localScale.y, facingRoot.localScale.z);
         }
         else if (moveInput.x < -inputDeadzone)
         {
@@ -108,6 +111,8 @@ public class PlayerMovementController : MonoBehaviour
                 facingRoot.localPosition.y,
                 facingRoot.localPosition.z
             );
+
+            facingRoot.localScale = new Vector3(-1f, facingRoot.localScale.y, facingRoot.localScale.z);
         }
         else
         {
@@ -172,8 +177,6 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
-            playerData.SetMovementState(PlayerMovementState.Airborne);
-
             acceleration = airAcceleration;
             deceleration = airDeceleration;
 
@@ -186,6 +189,8 @@ public class PlayerMovementController : MonoBehaviour
             {
                 coyoteJumpTimer = 0f;
             }
+
+            playerData.SetMovementState(PlayerMovementState.Airborne);
         }
     }
 
@@ -206,7 +211,7 @@ public class PlayerMovementController : MonoBehaviour
         PerformGroundChecks();
 
         // If physics has produced a stray upwards velocity while otherwise grounded, remove it
-        if (playerData.CurrentMoveState == PlayerMovementState.Grounded && !isJumping && velocity.y > 0f && velocity.y <= groundedBounceVelocityThreshold)
+        if (playerData.CurrentMoveState == PlayerMovementState.Grounded && !isJumping && Velocity.y > 0f && Velocity.y <= groundedBounceVelocityThreshold)
             SetVerticalVelocity(0f);
 
         // Update timers
@@ -243,9 +248,9 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         // Variable jump cut
-        if (!startedJumpThisStep && isJumping && !jumpHeld && velocity.y > 0f)
+        if (!startedJumpThisStep && isJumping && !jumpHeld && Velocity.y > 0f)
         {
-            SetVerticalVelocity(velocity.y / 2);
+            SetVerticalVelocity(Velocity.y / 2);
         }
 
         // --------------------------
@@ -260,7 +265,7 @@ public class PlayerMovementController : MonoBehaviour
             footstepAudioTimer -= isSprinting ? Time.fixedDeltaTime * 1.5f : Time.fixedDeltaTime;
         }
 
-        float horizontalVelocity = velocity.x;
+        float horizontalVelocity = Velocity.x;
 
         // Determine if we are accelerating or decelerating
         float targetChangeRate;
@@ -288,7 +293,7 @@ public class PlayerMovementController : MonoBehaviour
 
         if (playerData.CurrentMoveState == PlayerMovementState.Airborne)
         {
-            float newVerticalVelocity = velocity.y - gravityActual * Time.fixedDeltaTime;
+            float newVerticalVelocity = Velocity.y - gravityActual * Time.fixedDeltaTime;
 
             newVerticalVelocity = Mathf.Max(newVerticalVelocity, -maximumFallSpeed);
 

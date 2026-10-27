@@ -7,7 +7,8 @@ using UnityEngine.Rendering.Universal;
 public class PlayerLantern : MonoBehaviour
 {
     private PlayerState playerData;
-    
+
+    [SerializeField] private PlayerAnimationController animationController;
     [SerializeField] private InputActionReference interactAction;
 
     [Header("Lantern Defaults")]
@@ -77,7 +78,8 @@ public class PlayerLantern : MonoBehaviour
         if (context.interaction is HoldInteraction)
         {
             // if lantern is on, toggle between local and global lighting
-            if (isOn) {
+            if (isOn) 
+            {
                 TrySwitchMode();
             }
         }
@@ -93,6 +95,9 @@ public class PlayerLantern : MonoBehaviour
         // can only toggle when on solid ground
         if (!(playerData.CurrentMoveState == PlayerMovementState.Grounded))
             return;
+
+        // play animation
+        animationController.PlayerLanternToggle();
         
         // Lantern remembers whether it is in local or global mode even when off,
         // so that mode determines the cooldown
@@ -132,6 +137,9 @@ public class PlayerLantern : MonoBehaviour
         // can only toggle when on solid ground
         if (!(playerData.CurrentMoveState == PlayerMovementState.Grounded))
             return;
+
+        // play animation
+        animationController.PlayerLanternToggle();
         
         // Holding only changes mode while the lantern is on
         if (!isOn)

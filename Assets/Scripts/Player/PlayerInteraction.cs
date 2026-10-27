@@ -5,6 +5,7 @@ using TMPro;
 public class PlayerInteraction : MonoBehaviour
 {
     [Header("Interaction")]
+    [SerializeField] private PlayerAnimationController animationController;
     [SerializeField] private float interactionRadius = 1.5f;
     [SerializeField] private LayerMask darkInteractableLayers;
     [SerializeField] private LayerMask lightInteractableLayers;
@@ -51,6 +52,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (nearestInteractable != null)
         {
+            animationController.PlayerInteract();
             nearestInteractable.Interact();
         }
     }
