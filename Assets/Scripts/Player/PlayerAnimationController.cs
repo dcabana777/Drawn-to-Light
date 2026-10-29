@@ -31,6 +31,8 @@ public class PlayerAnimationController : MonoBehaviour
     private Vector3 previousPosition;
 
     private bool isLocked = false;
+    private bool wasInputLocked = false;
+    private bool wasGameplayDeactivated = false;
 
     InputAction pauseAction;
     private Coroutine actionRoutine;
@@ -64,29 +66,30 @@ public class PlayerAnimationController : MonoBehaviour
 
         animator.SetBool(GroundedHash, grounded);
         animator.SetBool(SprintingHash, playerController.Sprinting);
+
+        previousPosition = playerData.transform.position;
     }
 
     public void PlayerInteract()
     {
         animator.SetTrigger(InteractHash);
-        LockActionForAnimation(interactClip);
+        LockActionForAnimation(interactClip.length);
     }
 
     public void PlayerLanternToggle()
     {
         animator.SetTrigger(LanternToggleHash);
-        LockActionForAnimation(lanternToggleClip);
+        LockActionForAnimation(lanternToggleClip.length);
     }
 
-    private void LockActionForAnimation(AnimationClip clip)
+    public void LockActionForAnimation(float duration)
     {
-        if (isLocked || clip == null)
-            return;
-
-        if (playerData.CurrentMoveState == PlayerMovementState.InputLocked)
+        if (isLocked || playerData.CurrentMoveState == PlayerMovementState.InputLocked)
             return;
 
         isLocked = true;
+        wasInputLocked = playerData.CurrentMoveState == PlayerMovementState.InputLocked;
+        wasGameplayDeactivated = !playerInput.enabled;
 
         playerData.SetMovementState(PlayerMovementState.InputLocked);
         playerController.StopMovementForAnimation();
@@ -96,7 +99,7 @@ public class PlayerAnimationController : MonoBehaviour
         if (pauseAction != null)
             pauseAction.Disable();
 
-        actionRoutine = StartCoroutine(UnlockAfterAnimation(clip.length + extraLockTime));
+        actionRoutine = StartCoroutine(UnlockAfterAnimation(duration + extraLockTime));
     }
 
     private IEnumerator UnlockAfterAnimation(float duration)
@@ -114,11 +117,13 @@ public class PlayerAnimationController : MonoBehaviour
 
         isLocked = false;
 
-        // apply new player movement state
-        playerController.PerformGroundChecks();
+        // apply new player movement state if we were NOT InputLocked before
+        if (!wasInputLocked)
+            playerController.PerformGroundChecks();
 
         // re-enable inputs
-        playerInput.ActivateInput();
+        if (!wasGameplayDeactivated)
+            playerInput.ActivateInput();
         if (pauseAction != null)
             pauseAction.Enable();
     }

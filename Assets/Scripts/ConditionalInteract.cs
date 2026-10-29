@@ -7,7 +7,7 @@ public class ConditionalInteract : Interactable
     [Header("Condition")]
     [SerializeField] private GameCondition blockedCondition;
 
-    [Header("Player Input")]
+    [Header("Player References")]
     [SerializeField] private PlayerInput playerInput;
 
     [Header("Events")]

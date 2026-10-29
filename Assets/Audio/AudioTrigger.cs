@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AudioTrigger : MonoBehaviour
@@ -8,10 +9,18 @@ public class AudioTrigger : MonoBehaviour
 
     private int previousClip = -1;
 
-    public void Play()
+    private AudioSource audioSource;
+    private Coroutine durationRoutine;
+
+    private void Awake()
     {
-        if (GameAudioManager.Instance == null || clips == null || clips.Length == 0)
-            return;
+        audioSource = GameAudioManager.Instance.OneShotSource;
+    }
+
+    private AudioClip GetRandomClip()
+    {
+        if (clips == null || clips.Length == 0)
+            return null;
 
         int index;
 
@@ -28,6 +37,66 @@ public class AudioTrigger : MonoBehaviour
 
         previousClip = index;
 
-        GameAudioManager.Instance.PlayOneShot(clips[index], volume);
+        return clips[index];
+    }
+
+    public void Play()
+    {
+        if (GameAudioManager.Instance == null)
+            return;
+
+        AudioClip clip = GetRandomClip();
+
+        if (clip == null)
+            return;
+
+        GameAudioManager.Instance.PlayOneShot(clip, volume);
+    }
+
+    public void PlayForDuration(float duration)
+    {
+        if (durationRoutine != null)
+        {
+            StopCoroutine(durationRoutine);
+            durationRoutine = null;
+        }
+
+        audioSource.Stop();
+
+        if (duration <= 0f)
+            return;
+
+        AudioClip clip = GetRandomClip();
+
+        if (clip == null)
+            return;
+
+        audioSource.clip = clip;
+        audioSource.volume = volume;
+        audioSource.Play();
+
+        durationRoutine = StartCoroutine(StopAfterDuration(duration));
+    }
+
+    private IEnumerator StopAfterDuration(float duration)
+    {
+        yield return new WaitForSecondsRealtime(duration);
+
+        if (audioSource.isPlaying)
+            audioSource.Stop();
+
+        durationRoutine = null;
+    }
+
+    private void OnDisable()
+    {
+        if (durationRoutine != null)
+        {
+            StopCoroutine(durationRoutine);
+            durationRoutine = null;
+        }
+
+        if (audioSource != null)
+            audioSource.Stop();
     }
 }

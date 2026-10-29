@@ -52,8 +52,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if (nearestInteractable != null)
         {
-            animationController.PlayerInteract();
             nearestInteractable.Interact();
+            animationController.PlayerInteract();
         }
     }
 

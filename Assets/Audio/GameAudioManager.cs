@@ -18,6 +18,8 @@ public class GameAudioManager : MonoBehaviour
     [SerializeField] private AudioSource rotationSource;
     [SerializeField] private AudioSource movementSource;
 
+    public AudioSource OneShotSource => oneShotSource;
+
     private readonly Dictionary<Object, float> flickerRequests = new();
     private readonly Dictionary<Object, float> rotationRequests = new();
     private readonly Dictionary<Object, float> movementRequests = new();

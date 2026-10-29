@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class GateMover : MonoBehaviour
+public class GateMover : MonoBehaviour, IRoomResettable
 {
     [SerializeField] private Transform gate;
 
@@ -15,6 +15,9 @@ public class GateMover : MonoBehaviour
 
     private Coroutine moveRoutine;
 
+    private bool isOpen = false;
+    private bool savedIsOpen;
+
     private void Awake()
     {
         closedPosition = gate.localPosition;
@@ -25,11 +28,13 @@ public class GateMover : MonoBehaviour
     public void OpenGate()
     {
         MoveGate(openPosition);
+        isOpen = true;
     }
 
     public void CloseGate()
     {
         MoveGate(closedPosition);
+        isOpen = false;
     }
 
     private void MoveGate(Vector3 destination)
@@ -64,5 +69,26 @@ public class GateMover : MonoBehaviour
         gate.localPosition = destination;
 
         moveRoutine = null;
+    }
+
+    public void SaveState()
+    {
+        savedIsOpen = isOpen;
+    }
+
+    public void RestoreState()
+    {
+        if (moveRoutine != null)
+        {
+            StopCoroutine(moveRoutine);
+            moveRoutine = null;
+        }
+
+        isOpen = savedIsOpen;
+
+        if (isOpen)
+            gate.localPosition = openPosition;
+        else
+            gate.localPosition = closedPosition;
     }
 }

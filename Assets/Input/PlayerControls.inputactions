@@ -245,7 +245,7 @@
                 {
                     "name": "negative",
                     "id": "58f3adfa-bd8f-474b-aea3-e3c06e775708",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";MouseAndKeyboard",
@@ -256,7 +256,7 @@
                 {
                     "name": "positive",
                     "id": "dd32d730-a976-42f6-bae3-c95912d478b1",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";MouseAndKeyboard",
@@ -311,7 +311,7 @@
                 {
                     "name": "negative",
                     "id": "f9c58b92-6660-4d0c-bb45-e75aa99e59ec",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";MouseAndKeyboard",
@@ -322,7 +322,7 @@
                 {
                     "name": "positive",
                     "id": "663ffadd-be64-4d0e-b379-6294842cd4f0",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";MouseAndKeyboard",
