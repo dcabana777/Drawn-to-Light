@@ -336,4 +336,15 @@ public class PlayerMovementController : MonoBehaviour
         jumpBufferTimer = 0f;
         coyoteJumpTimer = 0f;
     }
+
+    public void StopMovementForAnimation()
+    {
+        moveInput = Vector2.zero;
+
+        // Stop horizontal sliding but keep vertical velocity
+        rb.linearVelocity = new Vector2(0f, Velocity.y);
+
+        // Don't allow any buffered jumps to go through
+        jumpBufferTimer = 0f;
+    }
 }

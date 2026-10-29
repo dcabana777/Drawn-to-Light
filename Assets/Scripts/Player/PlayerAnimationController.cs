@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAnimationController : MonoBehaviour
 {
@@ -6,6 +8,12 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerState playerData;
     [SerializeField] private PlayerMovementController playerController;
+    [SerializeField] private PlayerInput playerInput;
+
+    [Header("Animation Clips")]
+    [SerializeField] private AnimationClip interactClip;
+    [SerializeField] private AnimationClip lanternToggleClip;
+    [SerializeField] private float extraLockTime = 0.03f;
 
     private static readonly int SpeedHash = Animator.StringToHash("Speed");
 
@@ -22,9 +30,15 @@ public class PlayerAnimationController : MonoBehaviour
 
     private Vector3 previousPosition;
 
+    private bool isLocked = false;
+
+    InputAction pauseAction;
+    private Coroutine actionRoutine;
+
     private void Start()
     {
         previousPosition = playerData.transform.position;
+        pauseAction = playerInput.actions["Pause"];
     }
 
     private void Update()
@@ -55,10 +69,69 @@ public class PlayerAnimationController : MonoBehaviour
     public void PlayerInteract()
     {
         animator.SetTrigger(InteractHash);
+        LockActionForAnimation(interactClip);
     }
 
     public void PlayerLanternToggle()
     {
         animator.SetTrigger(LanternToggleHash);
+        LockActionForAnimation(lanternToggleClip);
+    }
+
+    private void LockActionForAnimation(AnimationClip clip)
+    {
+        if (isLocked || clip == null)
+            return;
+
+        if (playerData.CurrentMoveState == PlayerMovementState.InputLocked)
+            return;
+
+        isLocked = true;
+
+        playerData.SetMovementState(PlayerMovementState.InputLocked);
+        playerController.StopMovementForAnimation();
+
+        playerInput.DeactivateInput();
+
+        if (pauseAction != null)
+            pauseAction.Disable();
+
+        actionRoutine = StartCoroutine(UnlockAfterAnimation(clip.length + extraLockTime));
+    }
+
+    private IEnumerator UnlockAfterAnimation(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        actionRoutine = null;
+        FinishAction();
+    }
+
+    private void FinishAction()
+    {
+        if (!isLocked)
+            return;
+
+        isLocked = false;
+
+        // apply new player movement state
+        playerController.PerformGroundChecks();
+
+        // re-enable inputs
+        playerInput.ActivateInput();
+        if (pauseAction != null)
+            pauseAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        if (actionRoutine != null)
+        {
+            StopCoroutine(actionRoutine);
+            actionRoutine = null;
+        }
+
+        if (isLocked)
+            FinishAction();
     }
 }
