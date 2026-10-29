@@ -69961,7 +69961,7 @@ GameObject:
   - component: {fileID: 776481225}
   - component: {fileID: 776481224}
   - component: {fileID: 776481226}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HazardArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70106,7 +70106,7 @@ SpriteRenderer:
   m_SortingOrder: -10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: f3b74ef40597bea44b8d58e853ad8cd8, type: 3}
-  m_Color: {r: 0.5396226, g: 0, b: 0, a: 0.41960785}
+  m_Color: {r: 0.5396226, g: 0, b: 0, a: 0.6666667}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -101148,7 +101148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52af74f1438171842996d9df7581e1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  initialRoom: {fileID: 1931582076}
+  initialRoom: {fileID: 125542903}
   player: {fileID: 5289689783923424215}
   CurrentMajorCheckpoint: {fileID: 0}
 --- !u!4 &1126570365
@@ -190088,7 +190088,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &2386921414715673365
 Rigidbody2D:
   serializedVersion: 5
@@ -192842,7 +192842,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5289689783923424215}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9667ed73678bf774187604a9b038eea2, type: 3}
   m_Name: 
@@ -193949,7 +193949,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5289689783923424215}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8df5c13e35fb9a44a85cceac9e3ce8f4, type: 3}
   m_Name: 
@@ -196868,7 +196868,7 @@ MonoBehaviour:
   gravity: 20
   maximumFallSpeed: 150
   groundCheck: {fileID: 1430286948426917887}
-  checkBox: {x: 0.2, y: 0.1}
+  checkBox: {x: 0.5, y: 0.1}
   darkGroundLayers:
     serializedVersion: 2
     m_Bits: 1048576
