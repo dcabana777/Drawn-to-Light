@@ -761,7 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.381132, g: 0.381132, b: 0.381132, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -798,9 +798,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e83fba8ed498e42a64c91bc782240d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuSelectionController
-  defaultButton: {fileID: 692390625}
-  menuButtons:
-  - {fileID: 692390625}
+  defaultSelectable: {fileID: 0}
+  menuSelectables: []
   keepSelectionWhenLost: 1
 --- !u!1 &1505330873
 GameObject:
@@ -832,6 +831,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
   mainMenuPanel: {fileID: 1302161884}
+  optionsMenuPanel: {fileID: 0}
+  changeDisplayConfirmationPanel: {fileID: 0}
+  mainMenuSelection: {fileID: 0}
+  optionsMenuSelection: {fileID: 0}
+  changeDisplayConfirmationSelection: {fileID: 0}
 --- !u!4 &1505330875
 Transform:
   m_ObjectHideFlags: 0
@@ -859,7 +863,7 @@ GameObject:
   - component: {fileID: 1889037925}
   - component: {fileID: 1889037924}
   m_Layer: 5
-  m_Name: EndOfPlaytest
+  m_Name: EndText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -904,7 +908,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'End of Playtest
+  m_text: 'The End
 
 
     Thanks for Playing!'

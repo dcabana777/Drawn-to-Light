@@ -67,6 +67,8 @@ public class PlayerMovementController : MonoBehaviour
     private int currentPlayerLayer => gameObject.layer;
     private LayerMask groundLayer;
 
+    private bool endingWalkOnly;
+
     private void Awake()
     {
         playerData = GetComponent<PlayerState>();
@@ -85,6 +87,13 @@ public class PlayerMovementController : MonoBehaviour
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+
+        // During ending walk, the palyer can only move to the right.
+        if (endingWalkOnly)
+        {
+            moveInput.x = Mathf.Max(0f, moveInput.x);
+            moveInput.y = 0f;
+        }
 
         if (moveInput.x > inputDeadzone)
         {
@@ -232,6 +241,12 @@ public class PlayerMovementController : MonoBehaviour
 
         float moveMultiplier = isSprinting ? sprintSpeed : walkSpeed;
 
+        // Ending walk uses walk speed
+        if (endingWalkOnly)
+        {
+            moveMultiplier = walkSpeed;
+        }
+
         // --------
         // Jump
         // --------
@@ -346,5 +361,13 @@ public class PlayerMovementController : MonoBehaviour
 
         // Don't allow any buffered jumps to go through
         jumpBufferTimer = 0f;
+    }
+
+    public void SetEndingWalkOnly(bool enabled)
+    {
+        endingWalkOnly = enabled;
+
+        // remove any leftover input
+        moveInput = Vector2.zero;
     }
 }
