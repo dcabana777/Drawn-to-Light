@@ -1,0 +1,40 @@
+Notes on where and how AI was used
+
+All AI usage was via ChatGPT in the SDSU workspace.
+Note: This document is only a record of assistence provided by AI, not a claim that every suggestion was incorporated unchanged. Many things were done by myself, and even many things provided by AI had to be modified by myself or debugged, etc.
+
+Game Design/Planning
+- AI was used to discuss and refine the original game concept, especially with implementation details of the original light-based existence system.
+- AI was used to help evaluate possible puzzle layouts, mechanics combinations, and give feedback on ideas for rooms/puzzles.
+
+Gameplay programming
+- AI assisted, performed debugging-work, or otherwise helped with scripts and implementation approaches for automatic and controllable lights, the original light-dependent geometry system, light and shadow debugging, specific player movement debugging/feature addition, player interaction and conditional logic system, illumination-based conditions, conditional mechanisms for Room 8, checkpoint saving and reset functionality, and mechanical animation scripts (levers, gears, gates).
+- AI was used entirely to create the rail-based movement system for lights as I was unsure how to implement rails that could take on all sorts of shapes.
+- AI was used entirely to create the original dark fog effect with the old light system.
+- AI was used entirely to create the 'two world cameras + light mask camera = output visual effect' WorldComposite shader and rig script following my implementation concept and combine it with the existing dark fog effect.
+
+Player animation and input
+- AI provided help with configuring Unity's Animator for the player across its nine sprites.
+- AI provided code for selecting animations based on horizontal speed, vertical velocity, movement state, and interaction triggers.
+- AI assisted with debugging a script that adds a small rotational wobble to the player's visual sprite when walking or sprinting.
+- AI helped integrate the current player Input Locking system with animations to stop the player from performing inputs while certain animations are ongoing (interaction and lantern toggle).
+
+Audio programming
+- AI helped organize gameplay sounds into a single one-shot source for individual audio and three specific sources used for looping the audio from lights.
+- AI assisted with implementing GameAudioManager and LightAudioReporting, allowing multiple lights to request the same audio loop without stacking multiple copies of the sound.
+- AI helped extend AudioTrigger with `PlayForDuration(float)`, allowing audio playerback to be stopped after a specified duration without interrupting unrelated sounds.
+- AI provided an explanation of how to implement an overall volume slider, which was then implemented.
+
+Artwork and visual assets
+- AI generated all sprites used in the game, though initial outlines were provided by myself and cropping, transparency-adding, and other modifications to the produces sprites were done by me.
+- AI was used entirely to create PaperFillSync, a Unity script that automatically adjusts the scale and tiled SpriteRenderer dimensions of a paper-fill child to match its parent geometry following my implementation request.
+
+UI, debugging, technical support
+- AI assisted with implementing the basic menu behavior, selection/navigation logic, and input-action-map management which was then expanded to the full menus by myself.
+- AI helped implement a fixed-aspect camera presentation.
+- AI assisted with making it so that prompts reliant on the current control scheme would automatically update accordingly.
+- AI helped design and modify runtime debug overlays for current rooms, checkpoint information, room conditions and gates, and interactables.
+- AI was used to interpret various unexpected behavior, propose debugging procedures, diagnose code issues, and suggest fixes throughout development.
+- AI provided help with understanding how to use the Animator, SpriteRenderer, Inspector, UnityEvents, and other Unity systems I was unfamiliar with.
+
+AI was also used to put together an initial list of things it helped with, as everything had been done in one conversation. ;) I then expanded and checked the list, of course.

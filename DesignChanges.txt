@@ -1,0 +1,33 @@
+Changes from the original design document (Individual 2D Project "One-Pager")
+
+Gameplay
+- Sprinting was added, meaning a seventh action type was added. Shift with the keyboard and mouse control scheme, and Left-Stick Press with the controller scheme. Sprint provides faster movement than normal movement but lowers the player's jump height.
+- The player now accelerates and decelerates when starting and stopping movement rather than instantly changing speeds.
+- Jumping was changed: holding now produces the normal jump height, and releasing early cuts the jump's upwards velocity to stop early.
+- The keyboard and mouse control scheme's light rotate and light move inputs were changed. Moving lights is now done with the UP and DOWN arrow keys, and rotating lights is done with LEFT and RIGHT arrows.
+
+Art Assets
+- Due to time constraints, art assets were not drawn directly on paper and then scanned to be used as sprites. Instead, only rough outlines were drawn and then uploaded to ChatGPT to generate images based on.
+- Only a single sprite was created for all geometry, both permanent and light-based. Border lines for geometry were created but were unable to be implemented in a satisfying or timely enough manner and are thus unused.
+- Only a single light fixture sprite was created. Rail sprites were not created.
+- Dark fog to fill non-illuminated space was added. Appearance and disappearance effects for light-based geometry were not created due to a rework of the light-based existence system.
+
+Light-Existence System
+- The light-based existence system was completely reworked.
+- Instead of using a collider on the light source and detectors on the existence geometry piece that controls both physics and visual effects, the physics and logic were separated.
+  - The visual effect is created with three cameras. One camera only views objects visible in the 'permanent world'. A second camera views objects visible in both the 'permanent world' and 'light-existence world'. The final camera only sees a blank surface that receives lighting from Light2D sources, acting as a mask. A shader (WorldComposite) uses the lighting mask to blend the output from the first and second cameras to achieve the effect of showing only the permanent world outside of light, and showing both the permanent world and light-existence world in illuminated areas. This creates a much nicer-looking effect that is also impacted by shadows.
+  - The physics side is achieved via giving the player two different possible layers, one that interacts with only the permanent world (DarkPlayer), and one that interacts with both the permanent and light-existence worlds (LightPlayer). A WorldStateManager can then provide the current illumination level (calculated via WorldStateLight2Ds put onto light sources) which is then used by a WorldStateSwitcher to set the player's layer to either DarkPlayer or LightPlayer accordingly.
+    - A known bug with this system is that while shadows might cause light-existence geometry to not show up visually, they do not stop the player from being put into the LightPlayer layer, allowing the player to interact with seemingly invisible objects. There are only two known scenarios where this happens and time was insufficient to implement a fix.
+
+Audio Assets
+- The lantern was not given any sounds.
+- Falling/death and respawning were not given sounds.
+- Light-based geometry appearing and disappearing is no longer valid under the new system, so no sounds were given for that.
+- Sounds were not given for reaching checkpoints or room transitions.
+- Sounds were not given for menu/UI interaction.
+- A master volume option was added in the settings.
+- Additional sounds were added for specific interactions like switches, mechanism jams, etc.
+Note: All sounds were sourced from CC0 liscences or other free-to-use non-attributed sources.
+
+Other known bugs:
+- If the user changes resolution in windowed mode, that resolution is kept upon entering fullscreen mode and is scaled up.
