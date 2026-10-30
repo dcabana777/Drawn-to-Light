@@ -102240,7 +102240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52af74f1438171842996d9df7581e1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  initialRoom: {fileID: 125542903}
+  initialRoom: {fileID: 1931582076}
   player: {fileID: 5289689783923424215}
   CurrentMajorCheckpoint: {fileID: 0}
 --- !u!4 &1126570365
